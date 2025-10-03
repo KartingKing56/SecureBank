@@ -43,7 +43,6 @@ const Register: React.FC = () => {
       />
 
       <button className="btn btn-success w-100 mb-2">Register</button>
-      <button className="btn btn-outline-secondary w-100">Cancel</button>
     </div>
   );
 };
