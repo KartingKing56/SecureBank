@@ -1,17 +1,12 @@
 import React from "react";
+import styles from "../../css/LoginPage/Login.module.css";
 
 const Login: React.FC = () => {
   return (
     <div
-      className="container d-flex flex-column align-items-center mt-5"
-      //style={{ maxWidth: "400px" }}
+      className={`container d-flex flex-column align-items-center mt-5 ${styles.loginContainer}`}
     >
-      <img
-        src="/logo.png"
-        alt="Bank Logo"
-        className="mb-3"
-        //style={{ width: "80px", height: "80px" }}
-      />
+      <img src="/logo.png" alt="Bank Logo" className={`mb-3 ${styles.logo}`} />
       <h2 className="mb-4">Login</h2>
 
       <input type="text" className="form-control mb-3" placeholder="Username" />

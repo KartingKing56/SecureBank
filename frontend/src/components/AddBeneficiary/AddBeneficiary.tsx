@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import BeneficiarySelector from "./BeneficiarySelector";
 import LocalBeneficiaryForm from "./LocalBeneficiaryForm";
 import ForeignBeneficiaryForm from "./ForeignBeneficiaryForm";
+//import styles from "../../css/AddBeneficiary/AddBeneficiary.module.css";
 
 const AddBeneficiary: React.FC = () => {
   const [type, setType] = useState<"local" | "foreign">("local");

@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaExchangeAlt, FaHistory } from "react-icons/fa";
+import styles from "../../css/DashboardPage/DashboardContent.module.css";
 
 const DashboardOptions: React.FC = () => {
   const navigate = useNavigate();
@@ -9,8 +10,7 @@ const DashboardOptions: React.FC = () => {
     <div className="d-flex flex-wrap justify-content-center gap-4 py-4">
       {/* Create Transaction */}
       <div
-        className="card text-center shadow"
-        //style={{ width: "200px", height: "200px", cursor: "pointer" }}
+        className={`card text-center shadow ${styles.cardButton}`}
         onClick={() => navigate("/create-transaction")}
       >
         <div className="card-body d-flex flex-column justify-content-center align-items-center">
@@ -21,8 +21,7 @@ const DashboardOptions: React.FC = () => {
 
       {/* View Transactions */}
       <div
-        className="card text-center shadow"
-        //style={{ width: "200px", height: "200px", cursor: "pointer" }}
+        className={`card text-center shadow ${styles.cardButton}`}
         onClick={() => navigate("/view-transactions")}
       >
         <div className="card-body d-flex flex-column justify-content-center align-items-center">

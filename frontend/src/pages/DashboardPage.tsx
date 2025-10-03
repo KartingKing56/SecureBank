@@ -18,7 +18,10 @@ const DashboardPage: React.FC = () => {
 
   return (
     <div className="container-fluid p-0 vh-100 d-flex flex-column position-relative">
-      <MainNavBar onProfileClick={() => setSidebarOpen(true)} />
+      <MainNavBar
+        onProfileClick={() => setSidebarOpen(true)}
+        onNavigate={handleSelect}
+      />
       <div className="flex-grow-1 overflow-auto px-4">
         <h2 className="mt-4">Welcome to your dashboard</h2>
 
