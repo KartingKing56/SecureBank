@@ -35,7 +35,7 @@ const Login: React.FC = () => {
       <button className="btn btn-primary w-100 mb-3">Login</button>
 
       <div className="text-center">
-        Don’t have an account? <a href="/signup">Sign up</a>
+        Don’t have an account? <a href="/register">Register</a>
       </div>
     </div>
   );
