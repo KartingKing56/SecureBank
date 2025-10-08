@@ -1,3 +1,5 @@
+//import styles from "../../css/AddBeneficiary/BeneficiarySelector.module.css";
+
 interface Props {
   selected: "local" | "foreign";
   onChange: (type: "local" | "foreign") => void;

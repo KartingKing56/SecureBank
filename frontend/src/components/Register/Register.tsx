@@ -1,17 +1,12 @@
 import React from "react";
+import styles from "../../css/RegisterPage/Register.module.css";
 
 const Register: React.FC = () => {
   return (
     <div
-      className="container d-flex flex-column align-items-center mt-5"
-      //style={{ maxWidth: "500px" }}
+      className={`container d-flex flex-column align-items-center mt-5 ${styles.registerContainer}`}
     >
-      <img
-        src="/logo.png"
-        alt="Bank Logo"
-        className="mb-3"
-        //style={{ width: "80px", height: "80px" }}
-      />
+      <img src="/logo.png" alt="Bank Logo" className={`mb-3 ${styles.logo}`} />
       <h2 className="mb-4">Register</h2>
 
       <input
@@ -43,7 +38,6 @@ const Register: React.FC = () => {
       />
 
       <button className="btn btn-success w-100 mb-2">Register</button>
-      <button className="btn btn-outline-secondary w-100">Cancel</button>
     </div>
   );
 };

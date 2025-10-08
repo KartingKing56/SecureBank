@@ -1,5 +1,6 @@
 import React from "react";
 import AddBeneficiary from "../components/AddBeneficiary/AddBeneficiary";
+import "../css/AddBenificiaryPage/AddBenificiaryPage.css";
 
 const AddBeneficiaryPage: React.FC = () => {
   return (
