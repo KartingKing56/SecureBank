@@ -1,8 +1,262 @@
-.loginContainer {
-  max-width: 400px;
+/* Login.module.css */
+.loginWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  padding: 20px;
 }
 
-.logo {
+.settingsBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.settingsBtn:hover {
+  background-color: #f3f4f6;
+  color: #1a1a1a;
+}
+
+.loginContainer {
+  width: 100%;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logoSection {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoCircle {
   width: 80px;
   height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.logoText {
+  font-size: 32px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 2px;
+}
+
+.heading {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 35px;
+  text-align: left;
+  width: 100%;
+}
+
+.formGroup {
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: #f3f4f6;
+  color: #1a1a1a;
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+  outline: none;
+  background-color: #ffffff;
+}
+
+.input:hover {
+  border-color: #d1d5db;
+}
+
+.inputError {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.inputError:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
+}
+
+.errorText {
+  display: block;
+  color: #ef4444;
+  font-size: 13px;
+  margin-top: 6px;
+  margin-left: 4px;
+  font-weight: 500;
+}
+
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #f3f4f6 inset;
+  -webkit-text-fill-color: #1a1a1a;
+  border: 1px solid #e5e7eb;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.forgotPassword {
+  width: 100%;
+  text-align: right;
+  margin-bottom: 24px;
+  margin-top: -5px;
+}
+
+.forgotPassword a {
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.forgotPassword a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+.loginBtn {
+  width: 100%;
+  padding: 14px 20px;
+  background-color: #2563eb;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.loginBtn:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.loginBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+}
+
+.loginBtn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.signupText {
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.signupText a {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.signupText a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .loginWrapper {
+    max-width: 100%;
+    padding: 15px;
+  }
+
+  .loginContainer {
+    padding: 30px 20px;
+  }
+
+  .logoCircle {
+    width: 70px;
+    height: 70px;
+  }
+
+  .logoText {
+    font-size: 28px;
+  }
+
+  .heading {
+    font-size: 28px;
+    margin-bottom: 28px;
+  }
+
+  .input {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .loginBtn {
+    padding: 12px 18px;
+    font-size: 15px;
+  }
+
+  .settingsBtn {
+    top: 15px;
+    right: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loginContainer {
+    padding: 20px 15px;
+  }
+
+  .heading {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+
+  .logoCircle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .logoText {
+    font-size: 24px;
+  }
 }

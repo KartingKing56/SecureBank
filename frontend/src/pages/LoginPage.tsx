@@ -1,22 +1,20 @@
 import React from "react";
 import Login from "../components/Login/Login";
 import "../css/LoginPage/LoginPage.css";
+import bankImage from "../assets/bank.png";
 
 const LoginPage: React.FC = () => {
   return (
-    <div className="container-fluid vh-100">
-      <div className="row h-100">
+    <div className="login-page-wrapper">
+      <div className="login-card">
         {/* Left side image */}
-        <div className="col-md-6 d-none d-md-block p-0">
-          <img
-            src="/bank-hero.jpg"
-            alt="Banking Visual"
-            className="img-fluid h-100 w-100 object-fit-cover"
-          />
+        <div className="login-image-container">
+          <img src={bankImage} alt="Banking Visual" className="login-hero-image" />
+          <div className="image-overlay"></div>
         </div>
 
         {/* Right side login */}
-        <div className="col-md-6 d-flex align-items-center justify-content-center">
+        <div className="login-form-container">
           <Login />
         </div>
       </div>

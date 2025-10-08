@@ -8,7 +8,6 @@ import DashboardPage from "../pages/DashboardPage";
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<LoginPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/add-beneficiary" element={<AddBeneficiaryPage />} />

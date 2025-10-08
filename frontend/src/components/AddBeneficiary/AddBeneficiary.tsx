@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import BeneficiarySelector from "./BeneficiarySelector";
 import LocalBeneficiaryForm from "./LocalBeneficiaryForm";
 import ForeignBeneficiaryForm from "./ForeignBeneficiaryForm";
-//import styles from "../../css/AddBeneficiary/AddBeneficiary.module.css";
 
 const AddBeneficiary: React.FC = () => {
   const [type, setType] = useState<"local" | "foreign">("local");
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4">Add Beneficiary</h2>
+    <div className="container d-flex flex-column align-items-center text-center">
+      <h2 className="mb-4 fw-semibold">Add Beneficiary</h2>
       <BeneficiarySelector selected={type} onChange={setType} />
-      {type === "local" ? <LocalBeneficiaryForm /> : <ForeignBeneficiaryForm />}
+      <div className="w-100" style={{ maxWidth: "400px" }}>
+        {type === "local" ? <LocalBeneficiaryForm /> : <ForeignBeneficiaryForm />}
+      </div>
     </div>
   );
 };

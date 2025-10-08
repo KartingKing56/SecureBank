@@ -1,0 +1,24 @@
+.addBeneficiaryContainer {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.addBeneficiaryTitle {
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.addBeneficiaryButton {
+    background-color: #2563eb !important;
+    border: none !important;
+    border-radius: 12px !important;
+    font-size: 16px;
+    font-weight: 500;
+    height: 45px;
+    transition: background 0.2s ease;
+}
+
+.addBeneficiaryButton:hover {
+    background-color: #1d4ed8 !important;
+}

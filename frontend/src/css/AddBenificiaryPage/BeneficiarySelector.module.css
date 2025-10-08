@@ -1,0 +1,25 @@
+.selectorContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.selectorButton {
+    min-width: 120px;
+    padding: 10px 20px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.active {
+    background-color: #2563eb !important;
+    color: white !important;
+    border: none !important;
+}
+
+.inactive {
+    background-color: transparent;
+    border: 2px solid #2563eb;
+    color: #2563eb;
+}

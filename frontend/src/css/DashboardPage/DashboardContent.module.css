@@ -1,5 +1,93 @@
+.dashboardWrapper {
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Grid layout for cards */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+/* Card styles */
 .cardButton {
-  width: 200px;
-  height: 200px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
   cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.cardButton:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.cardInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardTitle {
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333333;
+}
+
+/* Icon colors */
+.iconPrimary {
+  color: #0d6efd;
+}
+
+.iconSuccess {
+  color: #198754;
+}
+
+.iconWarning {
+  color: #ffc107;
+}
+
+.iconInfo {
+  color: #0dcaf0;
+}
+
+/* Info section */
+.infoBlock {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.infoTitle {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #212529;
+}
+
+.infoBlock p {
+  margin-bottom: 0.75rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.infoBlock ul {
+  padding-left: 1.25rem;
+  margin: 0;
+}
+
+.infoBlock ul li {
+  margin-bottom: 0.5rem;
+  color: #444;
+  line-height: 1.4;
 }

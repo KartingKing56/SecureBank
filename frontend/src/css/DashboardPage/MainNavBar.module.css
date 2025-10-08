@@ -1,12 +1,98 @@
+.navbar {
+  width: 100%;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+}
+
+.leftGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.menuButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menuButton:hover {
+  color: #0d6efd;
+}
+
+.brandGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
 .logo {
   width: 40px;
   height: 40px;
 }
 
-.brandGroup {
+.brandTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #212529;
+}
+
+.rightGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logoutBtn {
+  padding: 0.4rem 0.8rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.logoutBtn:hover {
+  background-color: #bb2d3b;
 }
 
 .profileIcon {
   cursor: pointer;
+  color: #333;
+  transition: color 0.2s ease;
+}
+
+.profileIcon:hover {
+  color: #0d6efd;
+}
+
+/* Responsive for mobile */
+@media (max-width: 600px) {
+  .brandTitle {
+    font-size: 1rem;
+  }
+
+  .logoutBtn {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.85rem;
+  }
+
+  .logo {
+    width: 32px;
+    height: 32px;
+  }
 }

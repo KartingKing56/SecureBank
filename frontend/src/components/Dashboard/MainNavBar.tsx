@@ -1,14 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
+import { HiMenuAlt2 } from "react-icons/hi";
 import styles from "../../css/DashboardPage/MainNavBar.module.css";
 
 interface Props {
   onProfileClick: () => void;
-  onNavigate: (View: string) => void;
+  onNavigate: (view: string) => void;
+  onMenuClick?: () => void;
 }
 
-const MainNavBar: React.FC<Props> = ({ onProfileClick, onNavigate }) => {
+const MainNavBar: React.FC<Props> = ({ onProfileClick, onNavigate, onMenuClick }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -17,22 +19,32 @@ const MainNavBar: React.FC<Props> = ({ onProfileClick, onNavigate }) => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light px-4 py-2 shadow-sm">
-      <div
-        className={`d-flex align-items-center gap-2 ${styles.brandGroup}`}
-        onClick={() => onNavigate("default")}
-      >
-        <img src="/logo.png" alt="App Logo" className={styles.logo} />
-        <span className="navbar-brand mb-0 h1">MyBank</span>
-        <span className="nav-link">Home</span>
+    <nav className={styles.navbar}>
+      <div className={styles.leftGroup}>
+        {/* Hamburger menu for sidebar */}
+        <button
+          className={styles.menuButton}
+          onClick={onMenuClick}
+          aria-label="Open sidebar menu"
+        >
+          <HiMenuAlt2 size={24} />
+        </button>
+
+        <div
+          className={styles.brandGroup}
+          onClick={() => onNavigate("default")}
+        >
+          <img src="/logo.png" alt="App Logo" className={styles.logo} />
+          <span className={styles.brandTitle}>MyBank</span>
+        </div>
       </div>
 
-      <div className="ms-auto d-flex align-items-center gap-3">
-        <button className="btn btn-outline-danger" onClick={handleLogout}>
+      <div className={styles.rightGroup}>
+        <button className={styles.logoutBtn} onClick={handleLogout}>
           Logout
         </button>
         <FaUserCircle
-          size={28}
+          size={30}
           className={styles.profileIcon}
           onClick={onProfileClick}
         />

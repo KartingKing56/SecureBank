@@ -1,0 +1,37 @@
+/* src/css/RegisterPage/RegisterPage.css */
+
+/* Overall page background */
+.register-page-container {
+    background-color: #e6ebee;
+    /* light grey background */
+}
+
+/* Card container (white box with image + form) */
+.register-card {
+    width: 90%;
+    max-width: 1000px;
+    height: 600px;
+    background-color: #fff;
+    border-radius: 20px;
+}
+
+/* Left image section */
+.register-image {
+    flex: 1;
+    height: 100%;
+}
+
+.register-image img {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    object-fit: cover;
+}
+
+/* Right form section */
+.register-form {
+    flex: 1;
+    background-color: #fff;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 40px;
+}

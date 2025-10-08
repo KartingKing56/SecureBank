@@ -1,36 +1,59 @@
 import React from "react";
 import styles from "../../css/LoginPage/Login.module.css";
+import { Settings } from "lucide-react"; // optional: install lucide-react if you want the settings icon
 
 const Login: React.FC = () => {
   return (
-    <div
-      className={`container d-flex flex-column align-items-center mt-5 ${styles.loginContainer}`}
-    >
-      <img src="/logo.png" alt="Bank Logo" className={`mb-3 ${styles.logo}`} />
-      <h2 className="mb-4">Login</h2>
+    <div className={styles.loginWrapper}>
+      <button className={styles.settingsBtn}>
+        <Settings size={18} aria-hidden="true" />
+        <span className="visually-hidden">Settings</span>
+      </button>
 
-      <input type="text" className="form-control mb-3" placeholder="Username" />
-      <input
-        type="text"
-        className="form-control mb-3"
-        placeholder="Account Number"
-      />
-      <input
-        type="password"
-        className="form-control mb-3"
-        placeholder="Password"
-      />
 
-      <div className="w-100 text-end mb-3">
-        <a href="/forgot-password" className="text-decoration-none">
-          Forgot Password?
-        </a>
-      </div>
+      <div className={styles.loginContainer}>
+        {/* Logo Section */}
+        <div className={styles.logoSection}>
+          <div className={styles.logoCircle}>
+            <span className={styles.logoText}>CI</span>
+          </div>
+        </div>
 
-      <button className="btn btn-primary w-100 mb-3">Login</button>
+        <h2 className={styles.heading}>Login</h2>
 
-      <div className="text-center">
-        Don’t have an account? <a href="/register">Register</a>
+        {/* Form Fields */}
+        <div className={styles.formGroup}>
+          <input type="text" placeholder="Username *" className={styles.input} />
+        </div>
+
+        <div className={styles.formGroup}>
+          <input
+            type="text"
+            placeholder="Account Number *"
+            className={styles.input}
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <input
+            type="password"
+            placeholder="Password *"
+            className={styles.input}
+          />
+        </div>
+
+        {/* Forgot Password */}
+        <div className={styles.forgotPassword}>
+          <a href="#">Forgot password?</a>
+        </div>
+
+        {/* Login Button */}
+        <button className={styles.loginBtn}>Login</button>
+
+        {/* Register Link */}
+        <div className={styles.signupText}>
+          Don’t have an account? <a href="#">Register!</a>
+        </div>
       </div>
     </div>
   );

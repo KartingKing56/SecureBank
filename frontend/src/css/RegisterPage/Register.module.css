@@ -1,8 +1,41 @@
+/* src/css/RegisterPage/Register.module.css */
+
 .registerContainer {
-  max-width: 500px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
 }
 
 .logo {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+input.form-control {
+  background-color: #f5f7f9;
+  border: none;
+  border-radius: 12px;
+  height: 45px;
+  padding: 10px 15px;
+  font-size: 15px;
+}
+
+input.form-control:focus {
+  box-shadow: 0 0 0 2px #007bff33;
+}
+
+button {
+  background-color: #2563eb !important;
+  border: none !important;
+  border-radius: 12px !important;
+  font-size: 16px;
+  font-weight: 500;
+  height: 45px;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background-color: #1d4ed8 !important;
 }

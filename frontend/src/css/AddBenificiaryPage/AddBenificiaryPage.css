@@ -1,0 +1,14 @@
+/* src/css/AddBeneficiaryPage/AddBeneficiaryPage.css */
+
+.beneficiary-page-container {
+    background-color: #e6ebee;
+    /* light grey background */
+}
+
+.beneficiary-card {
+    width: 90%;
+    max-width: 700px;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 40px;
+}

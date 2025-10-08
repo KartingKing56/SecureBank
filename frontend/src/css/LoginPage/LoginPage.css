@@ -1,0 +1,247 @@
+/* LoginPage.css */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.container-fluid {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.vh-100 {
+    min-height: 100vh;
+    height: 100vh;
+}
+
+.h-100 {
+    height: 100%;
+}
+
+.g-0 {
+    margin: 0;
+    padding: 0;
+}
+
+.row {
+    margin: 0;
+}
+
+/* Image container with overlay effect */
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg,
+            rgba(37, 99, 235, 0.05) 0%,
+            rgba(29, 78, 216, 0.08) 100%);
+    pointer-events: none;
+}
+
+/* Right side login area */
+.bg-white {
+    background-color: #ffffff;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.p-0 {
+    padding: 0 !important;
+}
+
+/* Column styles */
+.col-md-6 {
+    flex: 0 0 auto;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .col-md-6 {
+        width: 50%;
+    }
+
+    .d-none {
+        display: none !important;
+    }
+
+    .d-md-block {
+        display: block !important;
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 767px) {
+    .vh-100 {
+        min-height: 100vh;
+        height: auto;
+    }
+
+    .col-md-6 {
+        padding: 20px;
+        width: 100%;
+    }
+
+    .d-none {
+        display: none !important;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+    .col-md-6 {
+        padding: 15px;
+    }
+}
+
+/* Smooth transitions */
+.hero-image {
+    transition: transform 0.3s ease;
+}
+
+.image-container:hover .hero-image {
+    transform: scale(1.02);
+}
+
+/* Loading state styles*/
+.hero-image.loading {
+    background-color: #f3f4f6;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.hero-image:focus {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+    .image-container {
+        display: none;
+    }
+
+    .col-md-6 {
+        width: 100% !important;
+    }
+}
+
+/* === Page background === */
+.login-page-wrapper {
+    background-color: #e5ebee;
+    /* soft grey background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 30px;
+}
+
+/* === Main card container === */
+.login-card {
+    display: flex;
+    width: 90%;
+    max-width: 900px;
+    height: 600px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* === Left side image === */
+.login-image-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease;
+}
+
+.login-image-container:hover .login-hero-image {
+    transform: scale(1.02);
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg,
+            rgba(37, 99, 235, 0.05) 0%,
+            rgba(29, 78, 216, 0.08) 100%);
+    pointer-events: none;
+}
+
+/* === Right side form === */
+.login-form-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background-color: #ffffff;
+}
+
+/* === Responsive adjustments === */
+@media (max-width: 768px) {
+    .login-card {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .login-image-container {
+        height: 200px;
+    }
+
+    .login-form-container {
+        padding: 30px 20px;
+    }
+}
