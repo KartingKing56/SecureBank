@@ -1,16 +1,48 @@
-import { hashPassword, verifyPassword, passwordMeetsPolicy } from '../utils/password';
+import { hashPassword, verifyPassword as verifyPasswordHash, passwordMeetsPolicy } from '../utils/password';
+import { User } from '../models/User';
+import { generateAccountNumber } from '../utils/accountNumber';
 
-export async function createUserSecure(password: string) {
+export async function createUserSecure(data: {
+  firstName: string;
+  surname: string;
+  idNumber: string;
+  username: string;
+  password: string;
+}) {
+  const { firstName, surname, idNumber, username, password } = data;
+
   if (!passwordMeetsPolicy(password)) {
-    const e: any = new Error('WeakPassword');
-    e.status = 400;
-    throw e;
+    const err: any = new Error('WeakPassword');
+    err.status = 400;
+    throw err;
   }
-  const hashed = await hashPassword(password);
-  // TODO: insert into your Users collection with hashed password
-  return { id: 'placeholder', passwordHash: hashed };
+
+  const passwordHash = await hashPassword(password);
+
+  let accountNumber = '';
+  let isUnique = false;
+
+  while (!isUnique) {
+    accountNumber = generateAccountNumber();
+    const existing = await User.findOne({ accountNumber });
+    if (!existing) isUnique = true;
+  }
+
+  const user = new User({
+    firstName,
+    surname,
+    idNumber,
+    username,
+    accountNumber,
+    passwordHash,
+  });
+
+  await user.save();
+  return user;
 }
 
-export async function verifyUserPassword(_userId: string, password: string, expectedHash: string) {
-  return verifyPassword(password, expectedHash);
+export async function verifyUserCredentials(username: string, password: string) {
+  const user = await User.findOne({ username });
+  if (!user) return false;
+  return verifyPasswordHash(password, user.passwordHash);
 }

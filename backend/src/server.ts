@@ -1,5 +1,6 @@
 import https from 'https';
 import fs from 'fs';
+import path from 'path';
 import { buildApp } from './app';
 import { ENV } from './config/env';
 import { logger } from './config/logger';
@@ -10,9 +11,12 @@ async function main() {
 
   const app = buildApp();
 
-  const key = fs.readFileSync(new URL('../certs/privatekey.pem', import.meta.url));
-  const cert = fs.readFileSync(new URL('../certs/certificate.pem', import.meta.url));
-  const server = https.createServer({ key, cert }, app);
+  const keyPath = path.join(__dirname, '../certs/privatekey.pem');
+  const certPath = path.join(__dirname, '../certs/certificate.pem');
+  const server = https.createServer(
+    { key: fs.readFileSync(keyPath), cert: fs.readFileSync(certPath) },
+    app
+  );
 
   server.listen(ENV.PORT, () => {
     logger.info(`HTTPS server listening on https://localhost:${ENV.PORT}`);

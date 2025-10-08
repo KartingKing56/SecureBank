@@ -4,15 +4,14 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "ES2020",
+    "module": "CommonJS",
     "target": "ES2020",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "Node",
     "outDir": "./dist",
     "rootDir": "./src",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "skipDefaultLibCheck": true,
-    "types": [],
+    "types": ["node"],
 
     // Other Outputs
     "sourceMap": true,
@@ -26,10 +25,7 @@
     // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
     "skipLibCheck": true,
   },
   "include": ["src"]
