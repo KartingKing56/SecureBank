@@ -4,11 +4,13 @@ import { ENV } from '../config/env';
 
 export function issueCsrfCookie(res: Response) {
   const token = randomBytes(32).toString('base64url');
+
   res.cookie(ENV.CSRF_COOKIE_NAME, token, {
     httpOnly: false,
     secure: true,
-    sameSite: 'strict',
-    path: '/'
+    sameSite: 'none',
+    path: '/',
+    maxAge: 60 * 60 * 1000,
   });
   return token;
 }

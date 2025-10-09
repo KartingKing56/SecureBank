@@ -6,8 +6,12 @@ export function notFound(_req: Request, res: Response) {
 }
 
 export function errorHandler(err: any, _req: Request, res: Response, _next: NextFunction) {
-    const status = err.status ?? 500;
-    const message = status === 500 ? 'InternalServerError' : err.message ?? 'Error';
-    if (status === 500) logger.error({ err }, 'Unhandled error');
-    res.status(status).json({ error: message });
+  const status = err?.status ?? 500;
+  const payload: any = { error: status === 500 ? 'InternalServerError' : (err?.message ?? 'Error') };
+
+  if (status === 500) {
+    logger.error({ err }, 'Unhandled error');
+    if (process.env.NODE_ENV !== 'production') payload.stack = err?.stack;
+  }
+  res.status(status).json(payload);
 }

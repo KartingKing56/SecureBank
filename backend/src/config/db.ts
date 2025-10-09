@@ -4,6 +4,7 @@ import { ENV } from './env';
 
 export async function connectDB() {
     mongoose.set('strictQuery', true);
+    mongoose.set('sanitizeFilter', true);
     await mongoose.connect(ENV.MONGODB_URI);
     logger.info('MONGODB connected');
 }

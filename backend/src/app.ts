@@ -14,6 +14,10 @@ export function buildApp() {
 
   app.use(securityMiddleware());
 
+  app.get('/api/health', (_req, res) => {
+    res.status(200).json({ status: 'ok' });
+  });
+
   app.use('/api', apiLimiter);
 
   // Routes

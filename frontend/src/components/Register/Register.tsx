@@ -16,7 +16,7 @@ const Register: React.FC = () => {
     const [message, setMessage] = useState("");
 
     React.useEffect(() => {
-      fetch("https://localhost:8443/api/auth/csrf", {
+      fetch("/api/auth/csrf", {
         method: "POST",
         credentials: "include",
       })
@@ -27,8 +27,7 @@ const Register: React.FC = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
-      const key = name.toLowerCase().replace(" ", "");
-      setForm((prev) => ({ ...prev, [key]: value }));
+      setForm((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -36,7 +35,7 @@ const Register: React.FC = () => {
       setMessage("Processing...");
 
       try {
-        const res = await fetch("https://localhost:8443/api/auth/register", {
+        const res = await fetch("/api/auth/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -76,12 +75,12 @@ const Register: React.FC = () => {
       </div>
       <h5 className="mb-4 fw-semibold">Register</h5>
 
-      <input type="text" className="form-control mb-3" placeholder="First Name" value={form.firstName} onChange={handleChange} />
-      <input type="text" className="form-control mb-3" placeholder="Surname" value={form.surname} onChange={handleChange}/>
-      <input type="text" className="form-control mb-3" placeholder="ID Number" value={form.idNumber} onChange={handleChange} />
-      <input type="text" className="form-control mb-3" placeholder="Username" value={form.username} onChange={handleChange}/>
-      <input type="password" className="form-control mb-3" placeholder="Password" value={form.password} onChange={handleChange}/>
-      <input type="password" className="form-control mb-3" placeholder="Confirm Password" value={form.confirmPassword} onChange={handleChange}/>
+      <input type="text" className="form-control mb-3" name="firstName" placeholder="First Name" value={form.firstName} onChange={handleChange} />
+      <input type="text" className="form-control mb-3" name="surname" placeholder="Surname" value={form.surname} onChange={handleChange}/>
+      <input type="text" className="form-control mb-3" name="idNumber" placeholder="ID Number" value={form.idNumber} onChange={handleChange} />
+      <input type="text" className="form-control mb-3" name="username" placeholder="Username" value={form.username} onChange={handleChange}/>
+      <input type="password" className="form-control mb-3" name="password" placeholder="Password" value={form.password} onChange={handleChange}/>
+      <input type="password" className="form-control mb-3" name="confirmPassword" placeholder="Confirm Password" value={form.confirmPassword} onChange={handleChange}/>
 
       <button type="submit" className="btn btn-primary w-100 mt-3">Register</button>
 
