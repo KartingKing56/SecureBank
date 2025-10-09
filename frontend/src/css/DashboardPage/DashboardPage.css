@@ -1,6 +1,3 @@
-/* =============================
-   🧭 DASHBOARD LAYOUT BASE
-============================= */
 .dashboard-layout {
     background-color: #f1f3f5;
     /* soft neutral grey background */
@@ -9,9 +6,6 @@
     flex-direction: column;
 }
 
-/* =============================
-   📌 CONTENT AREA
-============================= */
 .dashboard-main {
     display: flex;
     flex: 1;
@@ -34,9 +28,6 @@
     }
 }
 
-/* =============================
-   🪄 SCROLLBAR STYLING (optional)
-============================= */
 .dashboard-content::-webkit-scrollbar {
     width: 8px;
 }
@@ -50,9 +41,6 @@
     background-color: rgba(0, 0, 0, 0.25);
 }
 
-/* =============================
-   🖱️ ANIMATION (optional polish)
-============================= */
 .fade-in {
     opacity: 0;
     transform: translateY(10px);
@@ -71,9 +59,6 @@
     }
 }
 
-/* =============================
-   📱 MOBILE OPTIMIZATION
-============================= */
 @media (max-width: 768px) {
     .dashboard-content {
         margin-left: 0;

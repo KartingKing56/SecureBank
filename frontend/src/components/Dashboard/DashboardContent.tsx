@@ -4,7 +4,7 @@ import { FaUserPlus, FaExchangeAlt, FaHistory, FaChartLine } from "react-icons/f
 import styles from "../../css/DashboardPage/DashboardContent.module.css";
 
 interface DashboardContentProps {
-  onMenuClick?: () => void; // 👈 this line is critical
+  onMenuClick?: () => void;
 }
 
 const DashboardContent: React.FC<DashboardContentProps> = ({ onMenuClick }) => {

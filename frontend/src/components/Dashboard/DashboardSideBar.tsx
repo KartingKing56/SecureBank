@@ -16,7 +16,7 @@ interface Props {
 }
 
 const DashboardSidebar: React.FC<Props> = ({ isOpen, onClose, onSelect }) => {
-  // Optional: Close on ESC key
+  // Close on ESC key
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();

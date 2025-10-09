@@ -1,16 +1,9 @@
 import React from "react";
 import styles from "../../css/LoginPage/Login.module.css";
-import { Settings } from "lucide-react"; // optional: install lucide-react if you want the settings icon
 
 const Login: React.FC = () => {
   return (
     <div className={styles.loginWrapper}>
-      <button className={styles.settingsBtn}>
-        <Settings size={18} aria-hidden="true" />
-        <span className="visually-hidden">Settings</span>
-      </button>
-
-
       <div className={styles.loginContainer}>
         {/* Logo Section */}
         <div className={styles.logoSection}>

@@ -80,7 +80,6 @@
   color: #0d6efd;
 }
 
-/* Responsive for mobile */
 @media (max-width: 600px) {
   .brandTitle {
     font-size: 1rem;

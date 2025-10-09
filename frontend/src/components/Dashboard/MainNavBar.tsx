@@ -14,7 +14,6 @@ const MainNavBar: React.FC<Props> = ({ onProfileClick, onNavigate, onMenuClick }
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Add logout logic here (e.g., clear tokens, redirect)
     navigate("/login");
   };
 

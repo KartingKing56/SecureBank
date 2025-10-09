@@ -1,5 +1,3 @@
-//import styles from "../../css/AddBeneficiary/ForeignBeneficiaryForm.module.css";
-
 const ForeignBeneficiaryForm: React.FC = () => {
   return (
     <form>
