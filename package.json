@@ -1,0 +1,14 @@
+{
+  "name": "SecureBank",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently -n BACK,FRONT -c green,cyan \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

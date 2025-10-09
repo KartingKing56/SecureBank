@@ -3,6 +3,31 @@ import { ENV } from '../config/env';
 
 const ROUNDS = 12;
 
+export const PASSWORD_POLICY_REGEX = 
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,}$/;
+
+  export type PasswordPolicyReport = {
+    length: boolean;
+    upper: boolean;
+    lower: boolean;
+    digit: boolean;
+    special: boolean;
+    ok: boolean;
+  };
+
+  export function passwordPolicyReport(pw: string): PasswordPolicyReport {
+    return {
+      length: pw.length >= 12,
+      upper: /[A-Z]/.test(pw),
+      lower: /[a-z]/.test(pw),
+      digit: /\d/.test(pw),
+      special: /[^A-Za-z0-9]/.test(pw),
+      get ok() {
+        return this.length && this.upper && this.lower && this.digit && this.special;
+      }
+    };
+  }
+
 export async function hashPassword(plain: string) {
   const salted = plain + ENV.PASSWORD_PEPPER;
   const salt = await bcrypt.genSalt(ROUNDS);
@@ -14,5 +39,5 @@ export async function verifyPassword(plain: string, hashed: string) {
 }
 
 export function passwordMeetsPolicy(pw: string) {
-  return pw.length >= 12 && /[A-Z]/.test(pw) && /[a-z]/.test(pw) && /\d/.test(pw);
+  return PASSWORD_POLICY_REGEX.test(pw);
 }
