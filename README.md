@@ -100,6 +100,15 @@ See backend route files for details.
 - Input validation and sanitization throughout.
 - Rate limiting on sensitive endpoints.
 
+## References
+
+- [W3Schools React Tutorial](https://www.w3schools.com/react/default.asp)
+- [W3Schools TypeScript Tutorial](https://www.w3schools.com/typescript/index.php)
+- [TypeScript Tutorial (YouTube)](https://www.youtube.com/watch?v=d56mG7DezGs&pp=ygUTdHlwZXNjcmlwdCB0dXRvcmlhbA%3D%3D)
+- [React Tutorial (YouTube)](https://www.youtube.com/watch?v=SqcY0GlETPk&pp=ygUOUmVhY3QgdHV0b3JpYWw%3D)
+- [ChatGPT](https://chatgpt.com)
+- [Claude AI](https://claude.ai)
+
 ## License
 
 MIT
