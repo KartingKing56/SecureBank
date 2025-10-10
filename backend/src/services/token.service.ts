@@ -1,8 +1,10 @@
-import { SignJWT, jwtVerify } from 'jose';
+import { SignJWT, jwtVerify, JWTPayload } from 'jose';
 import { ENV } from '../config/env';
 
+let cachedKey: Uint8Array | null = null;
 function getKey() {
-  return new TextEncoder().encode(ENV.JWT.SECRET);
+  if (!cachedKey) cachedKey = new TextEncoder().encode(ENV.JWT.SECRET);
+  return cachedKey;
 }
 
 export async function signAccessJwt(sub: string, extra?: Record<string, unknown>) {
@@ -25,10 +27,16 @@ export async function signRefreshJwt(sub: string, extra?: Record<string, unknown
     .sign(getKey());
 }
 
-export async function verifyJwt<T = unknown>(token: string) {
+export type VerifiedPayload = JWTPayload & { sub: string};
+
+export async function verifyJwt<T = JWTPayload>(token: string) {
   const { payload } = await jwtVerify(token, getKey(), {
     issuer: ENV.JWT.ISS,
-    audience: ENV.JWT.AUD
+    audience: ENV.JWT.AUD,
   });
   return payload as T & { sub: string };
+}
+
+export async function verifyAccessJwt(token: string) {
+  return verifyJwt(token);
 }

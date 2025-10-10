@@ -3,8 +3,6 @@ import { ENV } from '../config/env';
 
 const ROUNDS = 12;
 
-export const PASSWORD_POLICY_REGEX = 
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,}$/;
 
   export type PasswordPolicyReport = {
     length: boolean;
@@ -36,8 +34,4 @@ export async function hashPassword(plain: string) {
 
 export async function verifyPassword(plain: string, hashed: string) {
   return bcrypt.compare(plain + ENV.PASSWORD_PEPPER, hashed);
-}
-
-export function passwordMeetsPolicy(pw: string) {
-  return PASSWORD_POLICY_REGEX.test(pw);
 }

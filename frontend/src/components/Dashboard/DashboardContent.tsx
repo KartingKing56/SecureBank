@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUserPlus, FaExchangeAlt, FaHistory, FaChartLine } from "react-icons/fa";
 import styles from "../../css/DashboardPage/DashboardContent.module.css";
+import UserSummary from "./UserSummary";
+import RecentTransactions from "./RecentTransactions";
 
 interface DashboardContentProps {
   onMenuClick?: () => void;
@@ -11,52 +13,34 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ onMenuClick }) => {
   const navigate = useNavigate();
 
   const dashboardOptions = [
-    {
-      title: "Add Beneficiary",
-      icon: <FaUserPlus size={40} className={styles.iconPrimary} />,
-      route: "/add-beneficiary",
-    },
-    {
-      title: "Create Transaction",
-      icon: <FaExchangeAlt size={40} className={styles.iconSuccess} />,
-      route: "/create-transaction",
-    },
-    {
-      title: "Verify & Forward Payments",
-      icon: <FaHistory size={40} className={styles.iconWarning} />,
-      route: "/view-transactions",
-    },
-    {
-      title: "Reports & Analytics",
-      icon: <FaChartLine size={40} className={styles.iconInfo} />,
-      route: "/analytics",
-    },
+    { title: "Add Beneficiary", icon: <FaUserPlus size={40} className={styles.iconPrimary} />, route: "/add-beneficiary" },
+    { title: "Create Transaction", icon: <FaExchangeAlt size={40} className={styles.iconSuccess} />, route: "/create-transaction" },
+    { title: "Verify & Forward Payments", icon: <FaHistory size={40} className={styles.iconWarning} />, route: "/view-transactions" },
+    { title: "Reports & Analytics", icon: <FaChartLine size={40} className={styles.iconInfo} />, route: "/analytics" },
   ];
 
   return (
     <div className={styles.dashboardWrapper}>
-      {/* Hamburger Menu */}
       {onMenuClick && (
         <div className={styles.hamburgerMenu} onClick={onMenuClick}>
-          <span></span>
-          <span></span>
-          <span></span>
+          <span></span><span></span><span></span>
         </div>
       )}
 
       <div className={styles.cardGrid}>
         {dashboardOptions.map((option, index) => (
-          <div
-            key={index}
-            className={`${styles.cardButton} shadow`}
-            onClick={() => navigate(option.route)}
-          >
+          <div key={index} className={`${styles.cardButton} shadow`} onClick={() => navigate(option.route)}>
             <div className={styles.cardInner}>
               {option.icon}
               <h5 className={styles.cardTitle}>{option.title}</h5>
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="mt-3">
+        <UserSummary />
+        <RecentTransactions />
       </div>
 
       <div className={`${styles.infoBlock} shadow`}>

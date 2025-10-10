@@ -5,6 +5,8 @@ import { routes } from './routes';
 import { apiLimiter } from './middlewares/rateLimit';
 import { notFound, errorHandler } from './middlewares/errors';
 import { logger } from './config/logger';
+import { beneficiaries } from './routes/beneficiaries';
+import { transactions } from './routes/transactions';
 
 export function buildApp() {
   const app = express();
@@ -22,6 +24,8 @@ export function buildApp() {
 
   // Routes
   app.use('/api', routes);
+  app.use('/api', beneficiaries);
+  app.use('/api', transactions);
 
   app.use(notFound);
   app.use(errorHandler);

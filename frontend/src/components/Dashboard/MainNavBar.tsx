@@ -13,8 +13,12 @@ interface Props {
 const MainNavBar: React.FC<Props> = ({ onProfileClick, onNavigate, onMenuClick }) => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    } catch {}
+    localStorage.removeItem('accessToken');
+    navigate('/login', { replace: true });
   };
 
   return (

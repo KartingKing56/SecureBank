@@ -1,6 +1,7 @@
-import { hashPassword, verifyPassword as verifyPasswordHash, passwordMeetsPolicy } from '../utils/password';
+import { hashPassword, verifyPassword as verifyPasswordHash } from '../utils/password';
 import { User } from '../models/User';
 import { generateAccountNumber } from '../utils/accountNumber';
+
 
 export async function createUserSecure(data: {
   firstName: string;
@@ -10,12 +11,6 @@ export async function createUserSecure(data: {
   password: string;
 }) {
   const { firstName, surname, idNumber, username, password } = data;
-
-  if (!passwordMeetsPolicy(password)) {
-    const err: any = new Error('WeakPassword');
-    err.status = 400;
-    throw err;
-  }
 
   const passwordHash = await hashPassword(password);
 
