@@ -11,12 +11,15 @@ import { verifyPassword as verifyPw } from '../utils/password';
 
 export const auth = Router();
 
+//--------------------------------------
+// Register schema - https://chatgpt.com - used for bug fixes
+//--------------------------------------
 const RegisterSchema = z.object({
   body: z.object({
-    firstName: z.string().regex(REGEX.firstName, 'Invalid first name'),
-    surname: z.string().regex(REGEX.surname, 'Invalid surname'),
-    idNumber: z.string().regex(REGEX.idNumber, 'Invalid ID number'),
-    username: z.string().regex(REGEX.username, 'Invalid username'),
+    firstName: z.string().trim().regex(REGEX.firstName, 'Invalid first name'),
+    surname: z.string().trim().regex(REGEX.surname, 'Invalid surname'),
+    idNumber: z.string().trim().regex(REGEX.idNumber, 'Invalid ID number'),
+    username: z.string().trim().toLowerCase().regex(REGEX.username, 'Invalid username'),
     password: z.string().regex(
       REGEX.password,
       'Password must be 12+ chars and include upper, lower, number and special character'
@@ -24,14 +27,14 @@ const RegisterSchema = z.object({
     confirmPassword: z.string(),
   }).superRefine((data, ctx) => {
     if (data.password !== data.confirmPassword) {
-      ctx.addIssue({
-        path: ['confirmPassword'],
-        code: 'custom',
-        message: 'Passwords do not match',
-      });
+      ctx.addIssue({ path: ['confirmPassword'], code: 'custom', message: 'Passwords do not match' });
     }
   }),
 });
+
+//--------------------------------------
+// Login schema - https://chatgpt.com - used for bug fixes
+//--------------------------------------
 
 const LoginSchema = z.object({
   body: z.object({
@@ -46,6 +49,9 @@ auth.post('/auth/csrf', (req, res) => {
   res.json({ csrf: token });
 });
 
+//--------------------------------------
+// api route for register
+//--------------------------------------
 auth.post('/auth/register', authLimiter, validate(RegisterSchema), async (req, res, next) => {
   try {
     if (!verifyDoubleSubmit(req)) {
@@ -59,15 +65,16 @@ auth.post('/auth/register', authLimiter, validate(RegisterSchema), async (req, r
   }
 });
 
+//--------------------------------------
+// api route for login
+//--------------------------------------
 auth.post('/auth/login', authLimiter, validate(LoginSchema), async (req, res, next) => {
   try {
     if (!verifyDoubleSubmit(req)) {
       return res.status(403).json({ error: 'CSRF' });
     }
 
-    const username = req.body.username.trim().toLowerCase();
-    const accountNumber = req.body.accountNumber.trim();
-    const password = req.body.password;
+    const { username, accountNumber, password } = req.body;
 
     const user = await User.findOne({ username, accountNumber }).select('+passwordHash');
 

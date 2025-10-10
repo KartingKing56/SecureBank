@@ -3,6 +3,9 @@ import { TX_REGEX } from '../utils/regex.tx';
 
 export type TxStatus = 'pending' | 'queued' | 'forwarded' | 'failed';
 
+//--------------------------------------
+// Transaction model.
+//--------------------------------------
 export interface ITransaction extends Document {
   userId: Types.ObjectId;
   reference: string;
@@ -29,6 +32,9 @@ const BeneficiarySub = new Schema<ITransaction['beneficiary']>(
   { _id: false }
 );
 
+//--------------------------------------
+// Transaction model schema
+//--------------------------------------
 const TransactionSchema = new Schema<ITransaction>(
   {
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },

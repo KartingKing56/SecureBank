@@ -2,6 +2,9 @@ import { randomBytes } from 'crypto';
 import type { Response, Request } from 'express';
 import { ENV } from '../config/env';
 
+//--------------------------------------
+// Issues CSRF cookie
+//--------------------------------------
 export function issueCsrfCookie(res: Response) {
   const token = randomBytes(32).toString('base64url');
 

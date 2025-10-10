@@ -1,3 +1,6 @@
+//--------------------------------------
+// Regex check for transaction - https://chatgpt.com - used for regex values
+//--------------------------------------
 export const TX_REGEX = {
   amount: /^(?:0|[1-9]\d{0,12})(?:\.\d{1,2})?$/,
   currency: /^[A-Z]{3}$/,

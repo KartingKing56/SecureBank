@@ -11,6 +11,9 @@ import { Beneficiary } from '../models/Beneficiary';
 
 export const beneficiaries = Router();
 
+//--------------------------------------
+// api route for beneficiary creation.
+//--------------------------------------
 beneficiaries.post(
   '/beneficiaries',
   requireAuth,

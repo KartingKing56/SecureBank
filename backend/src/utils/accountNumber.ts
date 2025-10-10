@@ -1,3 +1,7 @@
+//--------------------------------------
+// Random account number verification
+//--------------------------------------
+
 export function generateAccountNumber(): string {
     let account = '';
     for (let i = 0; i < 10; i++) {

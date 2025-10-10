@@ -1,5 +1,8 @@
+//--------------------------------------
+// Regex for user - https://chatgpt.com - used for regex values
+//--------------------------------------
 export const REGEX = {
-    firstName: /^[A-Za-z]{2.30}$/,
+    firstName: /^[A-Za-z]{2,40}$/,
     surname: /^[A-Za-z]{2,40}$/,
     idNumber: /^\d{13}$/,
     username: /^[A-Za-z0-9_]{4,20}$/,

@@ -6,6 +6,9 @@ import { ENV } from './config/env';
 import { logger } from './config/logger';
 import { connectDB, disconnectDB } from './config/db';
 
+//--------------------------------------
+// Backend server creation and startup with openssl certs
+//--------------------------------------
 async function main() {
   await connectDB();
 

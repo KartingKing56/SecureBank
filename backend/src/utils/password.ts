@@ -3,7 +3,9 @@ import { ENV } from '../config/env';
 
 const ROUNDS = 12;
 
-
+//--------------------------------------
+// Verifies password has a digit, special char and a capital.
+//--------------------------------------
   export type PasswordPolicyReport = {
     length: boolean;
     upper: boolean;
@@ -26,6 +28,9 @@ const ROUNDS = 12;
     };
   }
 
+//--------------------------------------
+// Salting and hashing of passwords
+//--------------------------------------
 export async function hashPassword(plain: string) {
   const salted = plain + ENV.PASSWORD_PEPPER;
   const salt = await bcrypt.genSalt(ROUNDS);

@@ -7,10 +7,18 @@ import mongoSanitize from 'express-mongo-sanitize';
 import express from 'express';
 import { ENV } from './env'
 
+
+//--------------------------------------
+// allowed localhost addresses
+//--------------------------------------
 const allowedOrigins = [
     'http://localhost:5173',
     'https://localhost:5173',
 ];
+
+//--------------------------------------
+// Sanitize function
+//--------------------------------------
 
 function sanitizeBodyAndParams(): express.RequestHandler {
   return (req, _res, next) => {
@@ -20,6 +28,9 @@ function sanitizeBodyAndParams(): express.RequestHandler {
   };
 }
 
+//--------------------------------------
+// Security to limit requests
+//--------------------------------------
 export function securityMiddleware() {
     return [
         helmet({

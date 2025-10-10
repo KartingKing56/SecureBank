@@ -1,5 +1,8 @@
 import rateLimit from 'express-rate-limit';
 
+//--------------------------------------
+// Rate limiter - https://chatgpt.com
+//--------------------------------------
 export const authLimiter = rateLimit({
     windowMs: 10 * 60 * 1000,
     max: 30,

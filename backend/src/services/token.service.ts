@@ -7,6 +7,9 @@ function getKey() {
   return cachedKey;
 }
 
+//--------------------------------------
+// Signs json access token
+//--------------------------------------
 export async function signAccessJwt(sub: string, extra?: Record<string, unknown>) {
   return await new SignJWT({ ...extra })
     .setProtectedHeader({ alg: 'HS256' })
@@ -17,6 +20,9 @@ export async function signAccessJwt(sub: string, extra?: Record<string, unknown>
     .sign(getKey());
 }
 
+//--------------------------------------
+// Refreshes json access token
+//--------------------------------------
 export async function signRefreshJwt(sub: string, extra?: Record<string, unknown>) {
   return await new SignJWT({ type: 'refresh', ...extra })
     .setProtectedHeader({ alg: 'HS256' })
@@ -29,6 +35,9 @@ export async function signRefreshJwt(sub: string, extra?: Record<string, unknown
 
 export type VerifiedPayload = JWTPayload & { sub: string};
 
+//--------------------------------------
+// Verifies access token
+//--------------------------------------
 export async function verifyJwt<T = JWTPayload>(token: string) {
   const { payload } = await jwtVerify(token, getKey(), {
     issuer: ENV.JWT.ISS,

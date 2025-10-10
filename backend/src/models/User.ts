@@ -1,5 +1,8 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
 
+//--------------------------------------
+// User model
+//--------------------------------------
 export interface IUser extends Document {
   _id: Types.ObjectId;
   firstName: string;
@@ -12,11 +15,17 @@ export interface IUser extends Document {
   updatedAt: Date;
 }
 
+//--------------------------------------
+// Regex for User model
+//--------------------------------------
 const nameRegex = /^[A-Za-z]{2,40}$/;
 const usernameRegex = /^[A-Za-z0-9_]{4,20}$/;
 const idRegex = /^\d{13}$/;
 const accountRegex = /^\d{10}$/;
 
+//--------------------------------------
+// User model schema
+//--------------------------------------
 const UserSchema = new Schema<IUser>(
   {
     firstName: {

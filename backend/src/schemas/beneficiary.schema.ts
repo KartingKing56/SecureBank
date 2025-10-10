@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+//--------------------------------------
+// Regex for beneficiary info - https://chatgpt.com - used for regex values
+//--------------------------------------
 const NAME = /^[A-Za-z][A-Za-z .,'-]{1,59}$/;
 const BANK = /^[A-Za-z0-9 .,'-]{2,80}$/;
 const BRANCH = /^[A-Za-z0-9-]{2,20}$/;
@@ -9,6 +12,9 @@ const COUNTRY = /^[A-Z]{2}$/;
 const NOTE = /^[A-Za-z0-9 .,'\-()/_]{0,140}$/;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+//--------------------------------------
+// Local beneficiary
+//--------------------------------------
 export const LocalBeneficiaryDto = z.object({
   type: z.literal('local'),
   name: z.string().regex(NAME, 'Invalid name'),
@@ -19,6 +25,9 @@ export const LocalBeneficiaryDto = z.object({
   reference: z.string().regex(NOTE).optional(),
 });
 
+//--------------------------------------
+// Foreign beneficiary
+//--------------------------------------
 export const ForeignBeneficiaryDto = z.object({
   type: z.literal('foreign'),
   name: z.string().regex(NAME, 'Invalid name'),

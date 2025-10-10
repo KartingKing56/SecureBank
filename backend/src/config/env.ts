@@ -6,6 +6,10 @@ const required = (k: string) => {
         return v;
 };
 
+//--------------------------------------
+// env config file 
+//--------------------------------------
+
 export const ENV = {
     MODE_ENV: process.env.NODE_ENV ?? 'development',
     IS_PROD: (process.env.NODE_ENV ?? 'development') === 'production',

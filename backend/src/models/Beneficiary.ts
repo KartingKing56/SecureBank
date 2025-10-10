@@ -2,6 +2,9 @@ import { Schema, model, Types, Document } from 'mongoose';
 
 export type BeneficiaryType = 'local' | 'foreign';
 
+//--------------------------------------
+// Beneficiary model
+//--------------------------------------
 export interface IBeneficiary extends Document {
   userId: Types.ObjectId;
   type: BeneficiaryType;
@@ -22,6 +25,9 @@ export interface IBeneficiary extends Document {
   updatedAt: Date;
 }
 
+//--------------------------------------
+// Schema setup for beneficiary model.
+//--------------------------------------
 const BeneficiarySchema = new Schema<IBeneficiary>(
   {
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },

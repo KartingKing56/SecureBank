@@ -1,6 +1,9 @@
 import type { Request, Response, NextFunction } from 'express';
 import { logger }from '../config/logger'
 
+//--------------------------------------
+// Error handling logger for debug.
+//--------------------------------------
 export function notFound(_req: Request, res: Response) {
     res.status(404).json({ error: 'NotFound' });
 }

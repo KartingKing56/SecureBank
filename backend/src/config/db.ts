@@ -2,6 +2,11 @@ import mongoose from 'mongoose';
 import { logger } from './logger';
 import { ENV } from './env';
 
+
+//--------------------------------------
+// Config file for starting and disconnecting Database.
+//--------------------------------------
+
 export async function connectDB() {
     mongoose.set('strictQuery', true);
     mongoose.set('sanitizeFilter', true);

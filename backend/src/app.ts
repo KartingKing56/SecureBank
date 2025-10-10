@@ -8,6 +8,9 @@ import { logger } from './config/logger';
 import { beneficiaries } from './routes/beneficiaries';
 import { transactions } from './routes/transactions';
 
+//--------------------------------------
+// Backend api routes
+//--------------------------------------
 export function buildApp() {
   const app = express();
   app.disable('x-powered-by');
@@ -22,7 +25,9 @@ export function buildApp() {
 
   app.use('/api', apiLimiter);
 
-  // Routes
+//--------------------------------------
+// routes
+//--------------------------------------
   app.use('/api', routes);
   app.use('/api', beneficiaries);
   app.use('/api', transactions);

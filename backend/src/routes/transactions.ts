@@ -15,6 +15,9 @@ function makeReference() {
   return `SBK-${ymd}-${randomUUID().replace(/-/g, '').slice(0, 8).toUpperCase()}`;
 }
 
+//--------------------------------------
+// api route for transaction creation.
+//--------------------------------------
 transactions.post(
   '/tx',
   requireAuth,
@@ -47,6 +50,9 @@ transactions.post(
   }
 );
 
+//--------------------------------------
+// api route for transaction read
+//--------------------------------------
 transactions.get(
   '/tx',
   requireAuth,
