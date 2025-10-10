@@ -1,33 +1,43 @@
 import { z } from 'zod';
-import { TX_REGEX } from '../utils/regex.tx';
 
-const Common = {
-  name: z.string().regex(TX_REGEX.name),
-  bankName: z.string().regex(TX_REGEX.bankName).optional(),
-};
+const NAME = /^[A-Za-z][A-Za-z .,'-]{1,59}$/;
+const BANK = /^[A-Za-z0-9 .,'-]{2,80}$/;
+const BRANCH = /^[A-Za-z0-9-]{2,20}$/;
+const ACCOUNT = /^[A-Za-z0-9]{6,34}$/;
+const SWIFT = /^[A-Z0-9]{8}(?:[A-Z0-9]{3})?$/;
+const COUNTRY = /^[A-Z]{2}$/;
+const NOTE = /^[A-Za-z0-9 .,'\-()/_]{0,140}$/;
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const LocalBeneficiaryDto = z.object({
+export const LocalBeneficiaryDto = z.object({
   type: z.literal('local'),
-  name: Common.name,
-  bankName: Common.bankName,
-  branchCode: z.string().regex(TX_REGEX.branchCode, 'Invalid branch code'),
-  accountNumber: z.string().regex(TX_REGEX.accountNumber, 'Invalid account number'),
-  accountType: z.enum(['savings', 'cheque']),
-  reference: z.string().max(140).optional(),
-  email: z.string().regex(TX_REGEX.email).optional(),
+  name: z.string().regex(NAME, 'Invalid name'),
+  bankName: z.string().regex(BANK, 'Invalid bank name'),
+  branchCode: z.string().regex(BRANCH, 'Invalid branch code'),
+  accountNumber: z.string().regex(ACCOUNT, 'Invalid account number'),
+  email: z.string().regex(EMAIL, 'Invalid email').optional(),
+  reference: z.string().regex(NOTE).optional(),
 });
 
-const ForeignBeneficiaryDto = z.object({
+export const ForeignBeneficiaryDto = z.object({
   type: z.literal('foreign'),
-  name: Common.name,
-  bankName: Common.bankName,
-  country: z.string().regex(TX_REGEX.country, 'Use 2-letter country code'),
-  swiftBic: z.string().regex(TX_REGEX.swiftBic, 'Invalid SWIFT/BIC'),
-  ibanOrAccount: z.string().regex(TX_REGEX.iban, 'Invalid IBAN format'),
-  reference: z.string().max(140).optional(),
-  email: z.string().regex(TX_REGEX.email).optional(),
+  name: z.string().regex(NAME, 'Invalid name'),
+  country: z.string().toUpperCase().regex(COUNTRY, 'Invalid country'),
+  swiftBic: z.string().toUpperCase().regex(SWIFT, 'Invalid SWIFT/BIC'),
+  ibanOrAccount: z.string().toUpperCase().regex(ACCOUNT, 'Invalid IBAN/Account'),
+  bankName: z.string().regex(BANK).optional(),
+  email: z.string().regex(EMAIL).optional(),
+  reference: z.string().regex(NOTE).optional(),
 });
 
 export const CreateBeneficiarySchema = z.object({
   body: z.discriminatedUnion('type', [LocalBeneficiaryDto, ForeignBeneficiaryDto]),
+});
+
+export const ListBeneficiariesSchema = z.object({
+  query: z.object({
+    page: z.coerce.number().min(1).default(1).optional(),
+    limit: z.coerce.number().min(1).max(100).default(10).optional(),
+    type: z.enum(['local', 'foreign']).optional(),
+  }).partial(),
 });

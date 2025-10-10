@@ -6,6 +6,7 @@
     "backend"
   ],
   "scripts": {
+    "install:all": "npm install --workspaces --include-workspace-root",
     "dev": "concurrently -n BACK,FRONT -c green,cyan \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\""
   },
   "devDependencies": {
