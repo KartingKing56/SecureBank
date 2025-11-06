@@ -7,10 +7,17 @@ function getKey() {
   return cachedKey;
 }
 
+type Role = "customer" | "employee" | "admin";
+type AccessClaims = { role?: Role };
+type RefreshClaims = { type: "refresh" };
+
 //--------------------------------------
 // Signs json access token
 //--------------------------------------
-export async function signAccessJwt(sub: string, extra?: Record<string, unknown>) {
+export async function signAccessJwt(
+  sub: string,
+  extra?: Record<string, unknown>
+) {
   return await new SignJWT({ ...extra })
     .setProtectedHeader({ alg: 'HS256' })
     .setSubject(sub)
@@ -23,7 +30,10 @@ export async function signAccessJwt(sub: string, extra?: Record<string, unknown>
 //--------------------------------------
 // Refreshes json access token
 //--------------------------------------
-export async function signRefreshJwt(sub: string, extra?: Record<string, unknown>) {
+export async function signRefreshJwt(
+  sub: string,
+  extra?: Record<string, unknown>
+) {
   return await new SignJWT({ type: 'refresh', ...extra })
     .setProtectedHeader({ alg: 'HS256' })
     .setSubject(sub)
@@ -47,5 +57,13 @@ export async function verifyJwt<T = JWTPayload>(token: string) {
 }
 
 export async function verifyAccessJwt(token: string) {
-  return verifyJwt(token);
+  return verifyJwt<AccessClaims>(token);
+}
+
+export async function verifyRefreshJwt(token: string) {
+  const payload = await verifyJwt<RefreshClaims>(token);
+  if (payload.type !== "refresh") {
+    throw new Error("Invalid refresh token");
+  }
+  return payload;
 }

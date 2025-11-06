@@ -7,6 +7,9 @@ import { notFound, errorHandler } from './middlewares/errors';
 import { logger } from './config/logger';
 import { beneficiaries } from './routes/beneficiaries';
 import { transactions } from './routes/transactions';
+import { httpsOnly } from './middlewares/httpsOnly';
+import { adminEmployees } from './routes/admin.employees';
+import { employeePortal } from './routes/employee.portal';
 
 //--------------------------------------
 // Backend api routes
@@ -14,6 +17,10 @@ import { transactions } from './routes/transactions';
 export function buildApp() {
   const app = express();
   app.disable('x-powered-by');
+
+  app.set('trust proxy', true);
+
+  app.use(httpsOnly());
 
   app.use(pinoHttp({ logger }));
 
@@ -31,6 +38,9 @@ export function buildApp() {
   app.use('/api', routes);
   app.use('/api', beneficiaries);
   app.use('/api', transactions);
+
+  app.use('/api/admin/employees', adminEmployees);
+  app.use('/api/intl', employeePortal);
 
   app.use(notFound);
   app.use(errorHandler);

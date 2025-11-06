@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../css/LoginPage/Login.module.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const usernameRegex = /^[A-Za-z0-9_]{4,20}$/;
 const accountRegex = /^\d{10}$/;
@@ -57,7 +57,7 @@ const Login: React.FC = () => {
     }
 
     const payload = {
-      username: form.username.trim(),
+      username: form.username.trim().toLowerCase(),
       accountNumber: form.accountNumber.trim(),
       password: form.password,
     };
@@ -75,19 +75,31 @@ const Login: React.FC = () => {
       });
 
       let data: any = {};
-      try { data = await res.json(); } catch {}
+      try {
+        data = await res.json();
+      } catch {
+      }
 
       if (res.ok) {
-        if (data.accessToken) {
-          localStorage.setItem("accessToken", data.accessToken);
+        if (data.accessToken) localStorage.setItem("accessToken", data.accessToken);
+        if (data.role) localStorage.setItem("role", data.role);
+
+        if (data.role === "admin" || data.role === "employee") {
+          navigate("/staff", { replace: true });
+        } else {
+          navigate("/dashboard", { replace: true });
         }
-        navigate("/dashboard", { replace: true });
-      } else if (res.status === 401) {
+        return;
+      }
+
+      if (res.status === 401) {
         setMessage("Invalid credentials");
       } else if (res.status === 403) {
-        setMessage("CSRF blocked. Refresh the page and try again.");
+        setMessage(data?.error === "employee_disabled"
+          ? "Your employee account is disabled. Contact an administrator."
+          : "CSRF blocked. Refresh the page and try again.");
       } else {
-        setMessage(data.error || "Login failed.");
+        setMessage(data?.error || "Login failed.");
       }
     } catch (err) {
       console.error(err);
@@ -134,7 +146,7 @@ const Login: React.FC = () => {
               required
               inputMode="numeric"
               maxLength={10}
-              pattern="\d{10}"
+              pattern="\\d{10}"
             />
           </div>
 
@@ -159,7 +171,7 @@ const Login: React.FC = () => {
         {message && <p className="mt-3">{message}</p>}
 
         <div className={styles.signupText}>
-          Don’t have an account? <a href="/register">Register!</a>
+          Don’t have an account? <Link to="/register">Register!</Link>
         </div>
       </div>
     </div>

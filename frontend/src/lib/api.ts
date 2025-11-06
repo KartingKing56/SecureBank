@@ -1,19 +1,51 @@
 export async function apiFetch(input: RequestInfo, init: RequestInit = {}) {
-  const token = localStorage.getItem('accessToken') || '';
   const headers = new Headers(init.headers || {});
-  if (token) headers.set('Authorization', `Bearer ${token}`);
 
-  const res1 = await fetch(input, { ...init, headers, credentials: 'include' });
-  if (res1.status !== 401) return res1;
+  let accessToken = localStorage.getItem("accessToken");
+  if (accessToken) headers.set("Authorization", `Bearer ${accessToken}`);
 
-  const ref = await fetch('/api/auth/refresh', { method: 'POST', credentials: 'include' });
-  if (!ref.ok) return res1;
+  const method = (init.method || "GET").toUpperCase();
+  if (["POST", "PUT", "PATCH", "DELETE"].includes(method)) {
+    const csrf = getCsrfFromCookie();
+    if (csrf) headers.set("X-CSRF-Token", csrf);
+  }
 
-  const { accessToken } = await ref.json();
-  if (!accessToken) return res1;
+  let response = await fetch(input, {
+    ...init,
+    headers,
+    credentials: "include",
+  });
 
-  localStorage.setItem('accessToken', accessToken);
-  const headers2 = new Headers(init.headers || {});
-  headers2.set('Authorization', `Bearer ${accessToken}`);
-  return fetch(input, { ...init, headers: headers2, credentials: 'include' });
+  if (response.status !== 401) return response;
+
+  const refreshResponse = await fetch("/api/auth/refresh", {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!refreshResponse.ok) return response;
+
+  const { accessToken: newAccessToken } = await refreshResponse.json();
+  if (!newAccessToken) return response;
+
+  localStorage.setItem("accessToken", newAccessToken);
+
+  const retryHeaders = new Headers(init.headers || {});
+  retryHeaders.set("Authorization", `Bearer ${newAccessToken}`);
+
+  if (["POST", "PUT", "PATCH", "DELETE"].includes(method)) {
+    const csrf = getCsrfFromCookie();
+    if (csrf) retryHeaders.set("X-CSRF-Token", csrf);
+  }
+
+  return fetch(input, {
+    ...init,
+    headers: retryHeaders,
+    credentials: "include",
+  });
+}
+
+function getCsrfFromCookie(cookieName = "csrf_token"): string | null {
+  const m = document.cookie.match(new RegExp(`(?:^|; )${cookieName}=([^;]*)`));
+  return m ? decodeURIComponent(m[1]) : null;
 }
