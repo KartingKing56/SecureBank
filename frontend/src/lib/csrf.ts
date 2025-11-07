@@ -28,3 +28,7 @@ export async function ensureCsrf(): Promise<string> {
 export function getCsrfToken(): string | null {
   return readCookie(CSRF_COOKIE_NAME);
 }
+
+export function getAccessToken(): string | null {
+  return localStorage.getItem('accessToken');
+}

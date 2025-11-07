@@ -1,30 +1,28 @@
 import React from "react";
 import "../../css/TransactionPage/TransactionPage.css";
 
+interface TransactionFormData {
+  amount: string;
+  currency: "ZAR" | "USD" | "EUR";
+  swiftBic: string;
+  agree: boolean;
+  benName: string;
+  benAccount: string;
+  benBank: string;
+  note?: string;
+}
+
 interface TransactionFormProps {
   step: number;
-  form: {
-    amount: string;
-    currency: "ZAR" | "USD" | "EUR";
-    provider: "SWIFT" | "Visa" | "Mastercard";
-    agree: boolean;
-
-    senderName: string;
-    senderAccount: string;
-    senderBank: string;
-
-    benName: string;
-    benAccount: string;
-    benBank: string;
-  };
-  setForm: React.Dispatch<React.SetStateAction<any>>;
+  form: TransactionFormData;
+  setForm: React.Dispatch<React.SetStateAction<TransactionFormData>>;
   reference?: string | null;
 }
 
 const TransactionForm: React.FC<TransactionFormProps> = ({ step, form, setForm, reference }) => {
-  const set = (key: keyof typeof form) =>
+  const set = (key: keyof TransactionFormData) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-      setForm((p: any) => ({
+      setForm((p) => ({
         ...p,
         [key]: e.target.type === "checkbox"
           ? (e.target as HTMLInputElement).checked
@@ -63,18 +61,28 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ step, form, setForm, 
             <option value="EUR">Euro (EUR)</option>
           </select>
 
-          <label htmlFor="provider">Provider</label>
-          <select
-            id="provider"
-            name="provider"
-            title="Select payment provider"
-            value={form.provider}
-            onChange={set("provider")}
-          >
-            <option value="SWIFT">SWIFT</option>
-            <option value="Visa" disabled>Visa</option>
-            <option value="Mastercard" disabled>Mastercard</option>
-          </select>
+          <label htmlFor="swiftBic">SWIFT/BIC Code</label>
+          <input
+            id="swiftBic"
+            name="swiftBic"
+            type="text"
+            placeholder="e.g. SBZAZAJJ"
+            value={form.swiftBic}
+            onChange={set("swiftBic")}
+            maxLength={11}
+          />
+          <p className="form-text">8 or 11 characters (e.g. SBZAZAJJ or SBZAZAJJXXX)</p>
+
+          <label htmlFor="note">Note (Optional)</label>
+          <input
+            id="note"
+            name="note"
+            type="text"
+            placeholder="Payment reference or note"
+            value={form.note || ""}
+            onChange={set("note")}
+            maxLength={140}
+          />
 
           <div className="terms">
             <input type="checkbox" id="terms" checked={form.agree} onChange={set("agree")} />
@@ -86,41 +94,42 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ step, form, setForm, 
     case 2:
       return (
         <div className="form-section">
-          <h2>Sender Details</h2>
-          <label>Sender Name</label>
-          <input type="text" placeholder="Mark Henry" value={form.senderName} onChange={set("senderName")} />
-          <label>Account Number</label>
-          <input type="text" placeholder="1234567890123" value={form.senderAccount} onChange={set("senderAccount")} />
+          <h2>Beneficiary Details</h2>
+          
+          <label>Beneficiary Name</label>
+          <input 
+            type="text" 
+            placeholder="John Doe" 
+            value={form.benName} 
+            onChange={set("benName")}
+            maxLength={60}
+          />
+          
+          <label>IBAN or Account Number</label>
+          <input 
+            type="text" 
+            placeholder="ZA1234567890 or account number" 
+            value={form.benAccount} 
+            onChange={set("benAccount")}
+            maxLength={34}
+          />
+          
           <label>Bank Name</label>
-          <input type="text" placeholder="Standard Bank" value={form.senderBank} onChange={set("senderBank")} />
-          <p className="muted">Note: The server uses your authenticated profile for sender info.</p>
+          <input 
+            type="text" 
+            placeholder="Absa" 
+            value={form.benBank} 
+            onChange={set("benBank")}
+            maxLength={80}
+          />
         </div>
       );
 
     case 3:
       return (
         <div className="form-section">
-          <h2>Beneficiary Details</h2>
-          <label>Beneficiary Name</label>
-          <input type="text" placeholder="John Doe" value={form.benName} onChange={set("benName")} />
-          <label>Account Number</label>
-          <input type="text" placeholder="1234567890123" value={form.benAccount} onChange={set("benAccount")} />
-          <label>Bank Name</label>
-          <input type="text" placeholder="Absa" value={form.benBank} onChange={set("benBank")} />
-        </div>
-      );
-
-    case 4:
-      return (
-        <div className="form-section">
           <h2>Review</h2>
           <div className="review-box">
-            <div className="review-section">
-              <h4>From</h4>
-              <p>{form.senderName || "(your profile)"}</p>
-              <p>{form.senderBank || "-"}</p>
-              <p>{form.senderAccount || "-"}</p>
-            </div>
             <div className="review-section">
               <h4>To</h4>
               <p>{form.benName || "-"}</p>
@@ -130,14 +139,20 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ step, form, setForm, 
             <div className="review-section">
               <h4>Amount</h4>
               <p>{form.currency} {form.amount || "0.00"}</p>
-              <h4>Provider</h4>
-              <p>{form.provider}</p>
+              <h4>SWIFT/BIC</h4>
+              <p>{form.swiftBic || "-"}</p>
+              {form.note && (
+                <>
+                  <h4>Note</h4>
+                  <p>{form.note}</p>
+                </>
+              )}
             </div>
           </div>
         </div>
       );
 
-    case 5:
+    case 4:
       return (
         <div className="form-section confirmation">
           <h2>Payment Submitted</h2>

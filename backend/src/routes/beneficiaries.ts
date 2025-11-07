@@ -20,9 +20,6 @@ beneficiaries.post(
   validate(CreateBeneficiarySchema),
   async (req, res, next) => {
     try {
-      if (!verifyDoubleSubmit(req)) {
-        return res.status(403).json({ error: "CSRF" });
-      }
 
       const userId = getAuthUserId(req);
 
@@ -63,7 +60,9 @@ beneficiaries.get(
       const limit = Math.min(100, Math.max(1, Number(req.query.limit || 10)));
 
       const filter: Record<string, unknown> = { userId };
-      if (req.query.type) filter.type = req.query.type;
+      if (req.query.type === 'local' || req.query.type === 'foreign') {
+        filter.type = req.query.type;
+      }
 
       const [items, total] = await Promise.all([
         Beneficiary.find(filter)

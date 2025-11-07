@@ -1,13 +1,26 @@
 export async function apiFetch(input: RequestInfo, init: RequestInit = {}) {
+  const method = (init.method || "GET").toUpperCase();
+
   const headers = new Headers(init.headers || {});
 
-  let accessToken = localStorage.getItem("accessToken");
-  if (accessToken) headers.set("Authorization", `Bearer ${accessToken}`);
+  const accessToken = localStorage.getItem("accessToken");
+  if (accessToken && !headers.has("Authorization")) {
+    headers.set("Authorization", `Bearer ${accessToken}`);
+  }
 
-  const method = (init.method || "GET").toUpperCase();
   if (["POST", "PUT", "PATCH", "DELETE"].includes(method)) {
-    const csrf = getCsrfFromCookie();
-    if (csrf) headers.set("X-CSRF-Token", csrf);
+    const csrf = getCsrfFromCookie("__Host-csrf");
+    if (csrf && !headers.has("X-CSRF-Token")) {
+      headers.set("X-CSRF-Token", csrf);
+    }
+  }
+
+  if (
+    !headers.has("Content-Type") &&
+    init.body &&
+    typeof init.body === "string"
+  ) {
+    headers.set("Content-Type", "application/json");
   }
 
   let response = await fetch(input, {
@@ -22,7 +35,6 @@ export async function apiFetch(input: RequestInfo, init: RequestInit = {}) {
     method: "POST",
     credentials: "include",
   });
-
   if (!refreshResponse.ok) return response;
 
   const { accessToken: newAccessToken } = await refreshResponse.json();
@@ -34,8 +46,15 @@ export async function apiFetch(input: RequestInfo, init: RequestInit = {}) {
   retryHeaders.set("Authorization", `Bearer ${newAccessToken}`);
 
   if (["POST", "PUT", "PATCH", "DELETE"].includes(method)) {
-    const csrf = getCsrfFromCookie();
+    const csrf = getCsrfFromCookie("__Host-csrf");
     if (csrf) retryHeaders.set("X-CSRF-Token", csrf);
+  }
+  if (
+    !retryHeaders.has("Content-Type") &&
+    init.body &&
+    typeof init.body === "string"
+  ) {
+    retryHeaders.set("Content-Type", "application/json");
   }
 
   return fetch(input, {
@@ -45,7 +64,7 @@ export async function apiFetch(input: RequestInfo, init: RequestInit = {}) {
   });
 }
 
-function getCsrfFromCookie(cookieName = "csrf_token"): string | null {
+function getCsrfFromCookie(cookieName = "__Host-csrf"): string | null {
   const m = document.cookie.match(new RegExp(`(?:^|; )${cookieName}=([^;]*)`));
   return m ? decodeURIComponent(m[1]) : null;
 }

@@ -20,15 +20,13 @@ export const CreateTxSchema = z
       .object({
         amount: z.string().trim().regex(TX_REGEX.amount, "Invalid amount"),
         currency: z.string().trim().toUpperCase().regex(TX_REGEX.currency, "Invalid currency"),
-        swiftBic: z
-          .string()
-          .trim()
-          .toUpperCase()
-          .regex((TX_REGEX as any).swiftBic ?? /^[A-Z0-9]{8}([A-Z0-9]{3})?$/, "Invalid SWIFT/BIC"),
+        swiftBic: z.string().trim().toUpperCase().regex(TX_REGEX.swiftBic, "Invalid SWIFT/BIC"),
         beneficiary: BeneficiaryDto,
         note: z.string().trim().max(140).regex(TX_REGEX.note).optional(),
       })
       .strict(),
+    params: z.object({}).optional(),
+    query: z.object({}).optional(),
   })
   .strict();
 

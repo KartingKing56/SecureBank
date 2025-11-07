@@ -41,6 +41,8 @@ export const ForeignBeneficiaryDto = z.object({
 
 export const CreateBeneficiarySchema = z.object({
   body: z.discriminatedUnion("type", [LocalBeneficiaryDto, ForeignBeneficiaryDto]),
+  params: z.unknown().optional(),
+  query: z.unknown().optional(),
 }).strict();
 
 export const ListBeneficiariesSchema = z.object({
@@ -49,4 +51,6 @@ export const ListBeneficiariesSchema = z.object({
     limit: z.coerce.number().min(1).max(100).default(10),
     type: z.enum(["local", "foreign"]).optional(),
   }).strict(),
-});
+  body: z.unknown().optional(),
+  params: z.unknown().optional(),
+}).strict();
