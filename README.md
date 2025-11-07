@@ -271,6 +271,40 @@ See backend route files in `backend/src/routes/` for complete API documentation.
 - Audit Logging
   - Security-relevant events (logins, role changes, transaction approvals, session revocations) are logged for audit and review.
 
+## POE Security Checklist
+
+The following concise checklist maps the POE security requirements to the project's implementations. Use this as a quick verification list when preparing the final submission.
+
+- Auth - JWT + Refresh Flow - Prevents unauthorized access
+  - Implemented: Short-lived JWT access tokens with rotating refresh tokens stored in secure, HttpOnly cookies. Refresh flow validates rotation and revocation in the DB.
+
+- RBAC - Role-based routes - Restricts access by user type
+  - Implemented: Middleware checks roles (user, staff, admin) and restricts routes accordingly; sensitive admin routes enforce admin-only access.
+
+- Passwords - Argon2id hashing - Secure password storage
+  - Implemented: Passwords hashed with Argon2id and stored with per-user salts and configured parameters for memory/work factor.
+
+- CSRF - Double-submit token + middleware - Blocks cross-site requests
+  - Implemented: CSRF token issued as a cookie and expected in a custom request header; middleware validates token matches cookie on state-changing requests.
+
+- Validation - Zod + Regex - Sanitizes all input
+  - Implemented: Zod validation schemas applied to request bodies, combined with reinforced RegEx whitelists for critical fields.
+
+- CORS - Whitelisted origins - Blocks malicious external sites
+  - Implemented: CORS middleware configured with a strict whitelist and explicit allowed methods/headers.
+
+- Cookies - HttpOnly + Secure + SameSite - Prevents JS and CSRF abuse
+  - Implemented: All session and token cookies set with HttpOnly, Secure and SameSite attributes (SameSite=Lax/Strict where appropriate).
+
+- Rate Limiting - authLimiter - Prevent brute-force attacks
+  - Implemented: `authLimiter` middleware on auth endpoints with configurable window and max attempts.
+
+- Session Control - DB-based session + disable flag - Allows user deactivation
+  - Implemented: Sessions persisted in DB with a `disabled` flag on user accounts; server invalidates sessions for disabled accounts.
+
+- Error Handling - Sanitized error output - Prevents leakage of internals
+  - Implemented: Client-facing errors are sanitized; full stack traces are recorded only in server logs with secure access controls.
+
 ## Development and Testing
 
 ### Quality Assurance
@@ -305,6 +339,22 @@ W3Schools. (2023) 'TypeScript Tutorial', W3Schools [Online]. Available at: https
 ## License
 
 MIT
+
+## Sample Accounts
+
+The following sample accounts are provided for testing the application (do not use in production):
+
+- jdoe
+  - Acc. No.: 7058205720
+  - Password: StaffPass@12345
+
+- admin
+  - Acc. No.: 1719290551
+  - Password: Admin@12345
+
+- Freddy
+  - Acc. No.: 8573548208
+  - Password: Customer@12345
 
 ---
 
