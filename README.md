@@ -256,6 +256,22 @@ See backend route files in `backend/src/routes/` for complete API documentation.
 - Recorded using OBS Studio
 - Available as unlisted YouTube video
 
+## References
+
+Anthropic. (2023) 'Claude AI', Anthropic [Online]. Available at: https://claude.ai (Accessed: 7 November 2025).
+
+GeeksforGeeks. (2023) 'TypeScript Tutorial', GeeksforGeeks [Online]. Available at: https://www.geeksforgeeks.org/typescript/typescript-tutorial (Accessed: 7 November 2025).
+
+GitHub. (2023) 'GitHub Copilot', GitHub [Online]. Available at: https://github.com/features/copilot (Accessed: 7 November 2025).
+
+Microsoft. (2023) 'TypeScript Documentation', TypeScript [Online]. Available at: https://www.typescriptlang.org (Accessed: 7 November 2025).
+
+OpenAI. (2023) 'ChatGPT', OpenAI [Online]. Available at: https://chat.openai.com (Accessed: 7 November 2025).
+
+Programming with Mosh. (2023) 'TypeScript Tutorial for Beginners' [Video], YouTube. Available at: https://www.youtube.com/watch?v=d56mG7DezGs (Accessed: 7 November 2025).
+
+W3Schools. (2023) 'TypeScript Tutorial', W3Schools [Online]. Available at: https://www.w3schools.com/typescript (Accessed: 7 November 2025).
+
 ## License
 
 MIT
