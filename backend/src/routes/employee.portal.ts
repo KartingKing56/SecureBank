@@ -43,7 +43,7 @@ const ObjectIdSchema = z
 const QueueQuerySchema = z.object({
   status: z.enum(["pending", "verified"]).default("pending"),
   limit: z.coerce.number().min(1).max(500).default(200),
-  cursor: z.string().optional(), // ISO date string
+  cursor: z.string().optional(),
 });
 
 const VerifyBodySchema = z.object({
@@ -155,7 +155,7 @@ employeePortal.post(
       { _id: idRes.data, provider: "SWIFT", status: "verified" },
       {
         $set: {
-          status: "queued",
+          status: "forwarded",
           submittedBy: new mongoose.Types.ObjectId(employeeId),
           submittedAt: new Date(),
         },

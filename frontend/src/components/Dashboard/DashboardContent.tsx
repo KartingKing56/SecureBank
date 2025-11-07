@@ -67,7 +67,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
       },
       {
         key: "reports",
-        title: "Reports & Analytics",
+        title: "Reports & Analytics Coming Soon",
         icon: <FaChartLine size={40} className={styles.iconInfo} />,
         onClick: () => staffGo("reports"),
       },

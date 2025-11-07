@@ -122,3 +122,24 @@
 @media (max-width: 768px) {
   .grid-2 { grid-template-columns: 1fr; }
 }
+
+/* Modal styling */
+.modal.show {
+  display: block;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-backdrop.show {
+  opacity: 0.5;
+}
+
+.modal-dialog {
+  margin: 1.75rem auto;
+  max-width: 800px;
+}
+
+.modal-content {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}

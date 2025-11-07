@@ -7,7 +7,12 @@
   ],
   "scripts": {
     "install:all": "npm install --workspaces --include-workspace-root",
-    "dev": "concurrently -n BACK,FRONT -c green,cyan \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\""
+    "test:all": "cd backend && npm test && cd ../frontend && npm test",
+    "build:all": "cd backend && npm run build && cd ../frontend && npm run build",
+    "audit:all": "npm audit && cd backend && npm audit && cd ../frontend && npm audit",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm start",
+    "dev:all": "concurrently -n BACK,FRONT -c green,cyan \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\""
   },
   "devDependencies": {
     "concurrently": "^9.2.1"

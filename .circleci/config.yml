@@ -1,0 +1,225 @@
+version: 2.1
+
+commands:
+  setup-node:
+    description: "Setup Node.js"
+    parameters:
+      node-version:
+        type: string
+        default: "18.x"
+    steps:
+      - checkout
+      - node/install:
+          node-version: << parameters.node-version >>
+      - run:
+          name: Install root dependencies
+          command: npm install
+
+  backend-setup:
+    description: "Setup backend"
+    steps:
+      - run:
+          name: Install backend dependencies
+          command: cd backend && npm install
+      - run:
+          name: Build backend
+          command: cd backend && npm run build
+
+  frontend-setup:
+    description: "Setup frontend"
+    steps:
+      - run:
+          name: Install frontend dependencies
+          command: cd frontend && npm install
+      - run:
+          name: Build frontend
+          command: cd frontend && npm run build
+
+  backend-tests:
+    description: "Run backend tests"
+    steps:
+      - run:
+          name: Run backend tests
+          command: cd backend && npm test
+      - run:
+          name: Backend type check
+          command: cd backend && npx tsc --noEmit
+
+  frontend-tests:
+    description: "Run frontend tests"
+    steps:
+      - run:
+          name: Run frontend tests
+          command: cd frontend && npm test -- --coverage --watchAll=false
+      - run:
+          name: Frontend type check
+          command: cd frontend && npx tsc --noEmit
+
+jobs:
+  test-backend:
+    docker:
+      - image: cimg/node:18.17
+      - image: mongo:6.0
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - setup-node
+      - backend-setup
+      - run:
+          name: Wait for MongoDB
+          command: dockerize -wait tcp://localhost:27017 -timeout 1m
+      - backend-tests
+
+  test-frontend:
+    docker:
+      - image: cimg/node:18.17
+    steps:
+      - setup-node
+      - frontend-setup
+      - frontend-tests
+
+  security-audit:
+    docker:
+      - image: cimg/node:18.17
+    steps:
+      - setup-node
+      - run:
+          name: Audit root dependencies
+          command: npm audit
+      - run:
+          name: Audit backend dependencies
+          command: cd backend && npm audit
+      - run:
+          name: Audit frontend dependencies
+          command: cd frontend && npm audit
+
+  build-all:
+    docker:
+      - image: cimg/node:18.17
+    steps:
+      - setup-node
+      - backend-setup
+      - frontend-setup
+      - run:
+          name: Create build artifacts
+          command: |
+            mkdir -p build
+            cp -r backend/dist build/backend
+            cp -r frontend/build build/frontend
+            ls -la build/
+      - store_artifacts:
+          path: build
+          destination: build-artifacts
+
+  deploy-backend-staging:
+    docker:
+      - image: cimg/node:18.17
+    steps:
+      - setup-node
+      - backend-setup
+      - run:
+          name: Deploy backend to staging
+          command: |
+            echo "Deploying backend to staging..."
+            # Add your backend deployment commands
+            # Example: cd backend && npm run deploy:staging
+
+  deploy-frontend-staging:
+    docker:
+      - image: cimg/node:18.17
+    steps:
+      - setup-node
+      - frontend-setup
+      - run:
+          name: Deploy frontend to staging
+          command: |
+            echo "Deploying frontend to staging..."
+            # Add your frontend deployment commands
+            # Example: cd frontend && npm run deploy:staging
+
+workflows:
+  version: 2
+  full-pipeline:
+    jobs:
+      - test-backend:
+          context: 
+            - security
+          filters:
+            branches:
+              only:
+                - main
+                - develop
+                - /feature-.*/
+      
+      - test-frontend:
+          context: 
+            - security
+          filters:
+            branches:
+              only:
+                - main
+                - develop
+                - /feature-.*/
+
+      - security-audit:
+          requires:
+            - test-backend
+            - test-frontend
+          context: 
+            - security
+          filters:
+            branches:
+              only:
+                - main
+                - develop
+
+      - build-all:
+          requires:
+            - security-audit
+          filters:
+            branches:
+              only:
+                - main
+                - develop
+
+      - deploy-backend-staging:
+          requires:
+            - build-all
+          filters:
+            branches:
+              only:
+                - develop
+      
+      - deploy-frontend-staging:
+          requires:
+            - build-all
+          filters:
+            branches:
+              only:
+                - develop
+
+      - hold-production-approval:
+          type: approval
+          requires:
+            - build-all
+          filters:
+            branches:
+              only:
+                - main
+
+      - deploy-backend-production:
+          requires:
+            - hold-production-approval
+          filters:
+            branches:
+              only:
+                - main
+      
+      - deploy-frontend-production:
+          requires:
+            - hold-production-approval
+          filters:
+            branches:
+              only:
+                - main

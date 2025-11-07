@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { listEmployees, listCustomers, createEmployee } from "../../lib/staffApi";
+import { listEmployees, createEmployee } from "../../lib/staffApi";
 
 type UserRow = {
   _id: string;
@@ -31,7 +31,6 @@ const staffIdRx = /^[A-Z0-9\-]{3,32}$/;
 const AdminDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [employees, setEmployees] = useState<UserRow[]>([]);
-  const [customers, setCustomers] = useState<UserRow[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const [showModal, setShowModal] = useState(false);
@@ -51,11 +50,10 @@ const AdminDashboard: React.FC = () => {
   useEffect(() => {
     const run = async () => {
       try {
-        const [emps, custs] = await Promise.all([listEmployees(), listCustomers()]);
+        const emps = await listEmployees();
         setEmployees(emps);
-        setCustomers(custs);
       } catch (e: any) {
-        setError(e?.message || "Failed to load users");
+        setError(e?.message || "Failed to load staff");
       } finally {
         setLoading(false);
       }
@@ -118,14 +116,14 @@ const AdminDashboard: React.FC = () => {
       setEmployees((prev) => [
         {
           _id: created.id || created._id,
-          firstName: created.firstName,
-          surname: created.surname,
+          firstName: created.firstName ?? payload.firstName,
+          surname: created.surname ?? payload.surname,
           username: created.username,
           accountNumber: created.accountNumber,
           role: "employee",
           employee: {
-            staffId: created.employee?.staffId,
-            department: created.employee?.department,
+            staffId: created.staffId ?? created.employee?.staffId,
+            department: created.department ?? created.employee?.department,
             active: true,
           },
         },
@@ -147,79 +145,46 @@ const AdminDashboard: React.FC = () => {
   return (
     <div className="fade-in">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-        <h2>Admin — User Management</h2>
+        <h2>Admin — Staff Management</h2>
         <button onClick={openModal} className="btn btn-primary">+ Add Staff</button>
       </div>
 
-      {/* Lists */}
-      <div style={{ display: "grid", gap: 24, gridTemplateColumns: "1fr 1fr" }}>
-        <section>
-          <h3>Staff</h3>
-          <div className="card">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Staff ID</th>
-                  <th>Name</th>
-                  <th>Username</th>
-                  <th>Department</th>
-                  <th>Active</th>
+      <section>
+        <h3>Staff</h3>
+        <div className="card">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Staff ID</th>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Department</th>
+                <th>Active</th>
+              </tr>
+            </thead>
+            <tbody>
+              {employees.map((u) => (
+                <tr key={u._id}>
+                  <td>{u.employee?.staffId || "—"}</td>
+                  <td>{u.firstName} {u.surname}</td>
+                  <td>{u.username}</td>
+                  <td>{u.employee?.department || "—"}</td>
+                  <td>{u.employee?.active ? "Yes" : "No"}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {employees.map((u) => (
-                  <tr key={u._id}>
-                    <td>{u.employee?.staffId || "—"}</td>
-                    <td>{u.firstName} {u.surname}</td>
-                    <td>{u.username}</td>
-                    <td>{u.employee?.department || "—"}</td>
-                    <td>{u.employee?.active ? "Yes" : "No"}</td>
-                  </tr>
-                ))}
-                {employees.length === 0 && (
-                  <tr><td colSpan={5} style={{ textAlign: "center", opacity: 0.7 }}>No staff yet.</td></tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </section>
+              ))}
+              {employees.length === 0 && (
+                <tr><td colSpan={5} style={{ textAlign: "center", opacity: 0.7 }}>No staff yet.</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
-        <section>
-          <h3>Customers</h3>
-          <div className="card">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Account</th>
-                  <th>Name</th>
-                  <th>Username</th>
-                  <th>Created</th>
-                </tr>
-              </thead>
-              <tbody>
-                {customers.map((u) => (
-                  <tr key={u._id}>
-                    <td>{u.accountNumber}</td>
-                    <td>{u.firstName} {u.surname}</td>
-                    <td>{u.username}</td>
-                    <td>{u.createdAt ? new Date(u.createdAt).toLocaleDateString() : "—"}</td>
-                  </tr>
-                ))}
-                {customers.length === 0 && (
-                  <tr><td colSpan={4} style={{ textAlign: "center", opacity: 0.7 }}>No customers yet.</td></tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </div>
-
-      {/* Modal */}
       {showModal && (
         <div className="modal-backdrop">
           <div className="modal">
             <h3>Add Staff Member</h3>
-            <form onSubmit={submitNewStaff}>
+            <form onSubmit={submitNewStaff} noValidate>
               <div className="grid-2">
                 <label>
                   First Name*

@@ -2,14 +2,15 @@ import React, { useMemo, useState } from "react";
 import MainNavBar from "../components/Dashboard/MainNavBar";
 import DashboardSidebar from "../components/Dashboard/DashboardSideBar";
 import "../css/DashboardPage/DashboardPage.css";
-
+import AdminSubmitted from "../components/Staff/AdminSubmitted";
 import { FaUserTie, FaUsers, FaHistory, FaPlus } from "react-icons/fa";
 import IntlQueue from "../components/Staff/IntlQueue";
 import AdminDashboard from "../components/Staff/AdminDashboard";
 import { createEmployee } from "../lib/staffApi";
 import { ensureCsrf } from "../lib/csrf";
+import AdminCustomers from "../components/Staff/AdminCustomers";
 
-type AdminView = "staff" | "customers" | "payments" | "reports";
+type AdminView = "staff" | "customers" | "payments" | "submitted" | "reports";
 
 type NewStaff = {
   firstName: string;
@@ -163,13 +164,22 @@ const AdminDashboardPage: React.FC = () => {
                 <FaHistory /> Payments Queue
               </button>
             </div>
+            <div className="col-12 col-sm-6 col-lg-3">
+              <button
+                className="btn w-100 btn-light p-3 shadow-sm d-flex align-items-center gap-2"
+                onClick={() => setActiveView("submitted")}
+              >
+                <FaHistory /> Submitted Payments
+              </button>
+            </div>
           </div>
 
           {/* Views */}
           {activeView === "staff" && <AdminDashboard key={refreshKey} />}
-          {activeView === "customers" && <p>Customers list (admin view)</p>}
+          {activeView === "customers" && <AdminCustomers />}            {/* NEW */}
           {activeView === "payments" && <IntlQueue canBulkSubmit={true} />}
-          {activeView === "reports" && <p>Reports &amp; Analytics</p>}
+          {activeView === "submitted" && <AdminSubmitted />}            {/* NEW */}
+          {activeView === "reports" && <p>Reports &amp; Analytics Coming Soon</p>}
         </div>
       </div>
 

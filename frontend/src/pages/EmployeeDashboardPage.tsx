@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import MainNavBar from "../components/Dashboard/MainNavBar";
 import DashboardSidebar from "../components/Dashboard/DashboardSideBar";
 import "../css/DashboardPage/DashboardPage.css";
+import { FaUsers, FaHistory, FaChartLine } from "react-icons/fa";
 import IntlQueue from "../components/Staff/IntlQueue";
+import EmployeeCustomers from "../components/Staff/EmployeeCustomers";
 
 type EmployeeView = "dashboard" | "user" | "customers" | "payments" | "reports";
 
@@ -23,6 +25,7 @@ const EmployeeDashboardPage: React.FC = () => {
         onNavigate={handleSelect}
         onMenuClick={() => setSidebarOpen(true)}
       />
+
       <div className="dashboard-main">
         <DashboardSidebar
           isOpen={sidebarOpen}
@@ -30,12 +33,35 @@ const EmployeeDashboardPage: React.FC = () => {
           onSelect={handleSelect}
           role="employee"
         />
+
         <div className="dashboard-content fade-in">
+          {/* Quick actions */}
+          <div className="row g-3 mb-3">
+            <div className="col-12 col-sm-6 col-lg-4">
+              <button className="btn w-100 btn-light p-3 shadow-sm d-flex align-items-center gap-2"
+                      onClick={() => setActiveView("customers")}>
+                <FaUsers /> Customers
+              </button>
+            </div>
+            <div className="col-12 col-sm-6 col-lg-4">
+              <button className="btn w-100 btn-light p-3 shadow-sm d-flex align-items-center gap-2"
+                      onClick={() => setActiveView("payments")}>
+                <FaHistory /> Payments Queue
+              </button>
+            </div>
+            <div className="col-12 col-sm-6 col-lg-4">
+              <button className="btn w-100 btn-light p-3 shadow-sm d-flex align-items-center gap-2"
+                      onClick={() => setActiveView("reports")}>
+                <FaChartLine /> Reports
+              </button>
+            </div>
+          </div>
+
           {activeView === "dashboard" && <p>Employee dashboard overview</p>}
           {activeView === "user" && <p>Staff user info/settings</p>}
-          {activeView === "customers" && <p>Customers list (employee view)</p>}
+          {activeView === "customers" && <EmployeeCustomers />}
           {activeView === "payments" && <IntlQueue canBulkSubmit={true} />}
-          {activeView === "reports" && <p>Reports & Analytics</p>}
+          {activeView === "reports" && <p>Reports &amp; Analytics</p>}
         </div>
       </div>
     </div>

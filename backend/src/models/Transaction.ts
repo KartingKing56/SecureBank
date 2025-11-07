@@ -84,7 +84,7 @@ const TransactionSchema = new Schema<ITransaction>(
     },
     swiftBic: {
       type: String,
-      requiredd: true,
+      required: true,
       uppercase: true,
       match: (TX_REGEX as any).swiftBic,
     },

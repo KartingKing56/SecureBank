@@ -10,6 +10,10 @@ import { transactions } from './routes/transactions';
 import { httpsOnly } from './middlewares/httpsOnly';
 import { adminEmployees } from './routes/admin.employees';
 import { employeePortal } from './routes/employee.portal';
+import { adminTransactions } from "./routes/admin.transactions";
+import { adminUsers } from "./routes/adminUsers";
+import { staffCustomers } from "./routes/staff.customers";
+import { customerTransactions } from "./routes/customer.transactions";
 
 //--------------------------------------
 // Backend api routes
@@ -41,6 +45,10 @@ export function buildApp() {
 
   app.use('/api/admin/employees', adminEmployees);
   app.use('/api/intl', employeePortal);
+  app.use("/api/admin/transactions", adminTransactions);
+  app.use("/api/admin/users", adminUsers);
+  app.use("/api/staff", staffCustomers);
+  app.use("/api/transactions", customerTransactions);
 
   app.use(notFound);
   app.use(errorHandler);

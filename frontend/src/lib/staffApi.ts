@@ -1,16 +1,15 @@
 import axios from "axios";
 import { ensureCsrf, getCsrfToken } from "./csrf";
+import { apiFetch } from "./api";
 
 const API_BASE = "/api";
 
 export function getAccessToken(): string {
   return localStorage.getItem("accessToken") || "";
 }
-
 export function setAccessToken(token: string): void {
   localStorage.setItem("accessToken", token);
 }
-
 export function getRole(): "customer" | "employee" | "admin" | null {
   const r = localStorage.getItem("role");
   return r === "customer" || r === "employee" || r === "admin" ? r : null;
@@ -24,19 +23,46 @@ async function withAuth(input: RequestInfo, init: RequestInit = {}) {
   return fetch(input, { ...init, headers, credentials: "include" });
 }
 
-
-export async function listEmployees() {
-  const res = await withAuth("/api/admin/employees");
-  if (!res.ok) throw new Error("Failed to fetch employees");
-  const data = await res.json();
-  return data.items ?? data;
-}
-
 export async function listCustomers() {
   const res = await withAuth("/api/admin/users?role=customer");
   if (!res.ok) throw new Error("Failed to fetch customers");
   const data = await res.json();
   return data.items ?? data;
+}
+
+export async function listEmployees() {
+  const res = await apiFetch("/api/admin/employees");
+  if (!res.ok) throw new Error(`Failed to fetch employees (${res.status})`);
+  return res.json();
+}
+
+export async function listStaffCustomers(params: { limit?: number; cursor?: string } = {}) {
+  const q = new URLSearchParams();
+  if (params.limit) q.set("limit", String(params.limit));
+  if (params.cursor) q.set("cursor", params.cursor);
+  const res = await apiFetch(`/api/staff/customers?${q.toString()}`);
+  if (!res.ok) throw new Error(`Failed to fetch customers (${res.status})`);
+  return res.json() as Promise<{
+    items: Array<{
+      _id: string;
+      firstName: string;
+      surname: string;
+      username: string;
+      accountNumber: string;
+      createdAt?: string;
+    }>;
+    nextCursor: string | null;
+  }>;
+}
+
+export async function listAdminTransactions(params: { status?: string; limit?: number; cursor?: string }) {
+  const q = new URLSearchParams();
+  if (params.status) q.set("status", params.status);
+  if (params.limit) q.set("limit", String(params.limit));
+  if (params.cursor) q.set("cursor", params.cursor);
+  const res = await apiFetch(`/api/admin/transactions?${q.toString()}`);
+  if (!res.ok) throw new Error(`Failed to fetch admin transactions (${res.status})`);
+  return res.json();
 }
 
 export async function createEmployee(input: {
@@ -49,20 +75,10 @@ export async function createEmployee(input: {
   staffId?: string;
 }) {
   await ensureCsrf();
-  const csrf = getCsrfToken();
-  const accessToken = getAccessToken();
-
-  console.log('Sending request with CSRF:', csrf);
-  console.log('Current cookies:', document.cookie);
-
-  const res = await fetch("/api/admin/employees", {
+  const csrf = getCsrfToken() ?? "";
+  const res = await apiFetch("/api/admin/employees", {
     method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRF-Token": csrf ?? "",
-      Authorization: `Bearer ${accessToken}`,
-    },
+    headers: { "Content-Type": "application/json", "X-CSRF-Token": csrf },
     body: JSON.stringify(input),
   });
 
@@ -83,11 +99,8 @@ export const api = axios.create({
 });
 
 function readCookie(name: string): string | null {
-  const m = document.cookie.match(
-    new RegExp(
-      `(?:^|; )${name.replace("/([.$?*|{}()\\[\\]\\/\\+^])/g", "\\$1")}=([^;]*)`
-    )
-  );
+  const safe = name.replace(/([.$?*|{}()[\]\\/+^])/g, "\\$1");
+  const m = document.cookie.match(new RegExp(`(?:^|; )${safe}=([^;]*)`));
   return m ? decodeURIComponent(m[1]) : null;
 }
 

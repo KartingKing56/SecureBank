@@ -41,7 +41,7 @@ export async function requireAuth(req: Request, res: Response, next: NextFunctio
 export function requireRole(...roles: Array<"admin" | "employee" | "customer">) {
   return (req: Request, res: Response, next: NextFunction) => {
     const userRole = req.auth?.role;
-    if (!userRole) return res.status(403).json({ errpr: "forbidden" });
+    if (!userRole) return res.status(403).json({ error: "forbidden" });
     if (!roles.includes(userRole)) return res.status(403).json({ error: "forbidden" });
     return next();
   };
@@ -49,6 +49,6 @@ export function requireRole(...roles: Array<"admin" | "employee" | "customer">) 
 
 export function getAuthUserId(req: Request): string {
   const uid = req.auth?.userId;
-  if (!uid) throw Object.assign(new Error("unothorized"), { status: 401 });
+  if (!uid) throw Object.assign(new Error("unauthorized"), { status: 401 });
   return uid;
 }
