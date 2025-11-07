@@ -37,7 +37,7 @@ const MainNavBar: React.FC<Props> = ({ onProfileClick, onNavigate, onMenuClick }
           className={styles.brandGroup}
           onClick={() => onNavigate("default")}
         >
-          <img src="/logo.png" alt="App Logo" className={styles.logo} />
+          <img src="./src/assets/logo_black.png" alt="App Logo" className={styles.logo} />
           <span className={styles.brandTitle}>MyBank</span>
         </div>
       </div>

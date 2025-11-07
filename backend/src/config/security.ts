@@ -49,7 +49,7 @@ export function securityMiddleware() {
             },
             credentials: true,
             methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-            allowedHeaders: ['Content-Type', 'X-CSRF-Token'],
+            allowedHeaders: ['Content-Type', 'X-CSRF-Token', 'Authorization'],
             exposedHeaders: ['ETag'],
         }),
         compression(),

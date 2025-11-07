@@ -21,5 +21,13 @@ export function issueCsrfCookie(res: Response) {
 export function verifyDoubleSubmit(req: Request) {
   const cookie = req.cookies?.[ENV.CSRF_COOKIE_NAME];
   const header = req.header('X-CSRF-Token');
+  
+  console.log('🔍 CSRF Debug:', {
+    cookieName: ENV.CSRF_COOKIE_NAME,
+    cookieValue: cookie,
+    headerValue: header,
+    match: cookie && header && cookie === header
+  });
+  
   return cookie && header && cookie === header;
 }

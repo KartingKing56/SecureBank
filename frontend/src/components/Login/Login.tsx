@@ -84,12 +84,9 @@ const Login: React.FC = () => {
         if (data.accessToken) localStorage.setItem("accessToken", data.accessToken);
         if (data.role) localStorage.setItem("role", data.role);
 
-        if (data.role === "admin" || data.role === "employee") {
-          navigate("/staff", { replace: true });
-        } else {
-          navigate("/dashboard", { replace: true });
-        }
-        return;
+        if (data.role === "admin") navigate("/admin", { replace: true });
+        else if (data.role === "employee") navigate("/staff", { replace: true });
+        else navigate("/dashboard", { replace: true });
       }
 
       if (res.status === 401) {
