@@ -8,7 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --respawn --transpile-only --pretty src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "seed:admin": "ts-node src/seedAdmin.ts",
+    "migrate": "ts-node src/scripts/migrate.ts"
   },
   "keywords": [],
   "author": "",

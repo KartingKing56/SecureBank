@@ -67,7 +67,6 @@ const UserSchema = new Schema<IUser>(
     idNumber: {
       type: String,
       required: true,
-      unique: true,
       match: idRegex,
       immutable: true,
       validate: {
@@ -78,7 +77,6 @@ const UserSchema = new Schema<IUser>(
     username: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
       lowercase: true,
       match: usernameRegex,
@@ -86,7 +84,6 @@ const UserSchema = new Schema<IUser>(
     accountNumber: {
       type: String,
       required: true,
-      unique: true,
       match: accountRegex,
       immutable: true,
     },
@@ -99,10 +96,9 @@ const UserSchema = new Schema<IUser>(
       type: String,
       enum: ["customer", "employee", "admin"],
       default: "customer",
-      index: true,
     },
     employee: {
-      staffId: { type: String, match: staffIdRegex, sparse: true },
+      staffId: { type: String, match: staffIdRegex },
       department: { type: String, maxLength: 40 },
       active: { type: Boolean, default: true },
     },
@@ -129,11 +125,11 @@ const UserSchema = new Schema<IUser>(
 //--------------------------------------
 // Indexes
 //--------------------------------------
-UserSchema.index({ username: 1 }, { unique: true, collation: COLLATION });
-UserSchema.index({ idNumber: 1}, { unique: true });
-UserSchema.index({ accountNumber: 1 }, { unique: true });
-UserSchema.index({ role: 1 });
-UserSchema.index({ "employee.staffId": 1 }, { unique: true, sparse: true });
+UserSchema.index({ username: 1 }, { unique: true, name: "uniq_username", collation: COLLATION });
+UserSchema.index({ idNumber: 1}, { unique: true, name: "uniq_idNumber" });
+UserSchema.index({ accountNumber: 1 }, { unique: true, name: "uniq_accountNumber" });
+UserSchema.index({ role: 1 }, { name: "idx_role" });
+UserSchema.index({ "employee.staffId": 1 }, { unique: true, sparse: true, name: "uniq_employee_staffId_1" });
 
 //--------------------------------------
 // Helpers

@@ -4,14 +4,15 @@ import DashboardContent from "../components/Dashboard/DashboardContent";
 import DashboardSidebar from "../components/Dashboard/DashboardSideBar";
 import "../css/DashboardPage/DashboardPage.css";
 
-const DashboardPage: React.FC = () => {
+type CustomerView = "default" | "user" | "beneficiaries" | "card" | "transactions";
+
+const CustomerDashboardPage: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeView, setActiveView] = useState<
-    "default" | "user" | "beneficiaries" | "card" | "transactions" | "analytics"
-  >("default");
+  const [activeView, setActiveView] = useState<CustomerView>("default");
 
   const handleSelect = (option: string) => {
-    setActiveView(option as typeof activeView);
+    const allowed: CustomerView[] = ["default", "user", "beneficiaries", "card", "transactions"];
+    setActiveView(allowed.includes(option as CustomerView) ? (option as CustomerView) : "default");
     setSidebarOpen(false);
   };
 
@@ -28,19 +29,21 @@ const DashboardPage: React.FC = () => {
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
           onSelect={handleSelect}
+          role="customer"
         />
 
         <div className="dashboard-content fade-in">
-          {activeView === "default" && <DashboardContent onMenuClick={() => setSidebarOpen(true)} />}
+          {activeView === "default" && (
+            <DashboardContent role="customer" onMenuClick={() => setSidebarOpen(true)} />
+          )}
           {activeView === "user" && <p>Showing user information...</p>}
           {activeView === "beneficiaries" && <p>Showing beneficiary list...</p>}
           {activeView === "card" && <p>Showing card details...</p>}
-          {activeView === "transactions" && <p>Showing transactions for SWIFT verification...</p>}
-          {activeView === "analytics" && <p>Showing reports & analytics...</p>}
+          {activeView === "transactions" && <p>Showing your recent transactions...</p>}
         </div>
       </div>
     </div>
   );
 };
 
-export default DashboardPage;
+export default CustomerDashboardPage;
