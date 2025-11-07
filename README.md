@@ -200,13 +200,14 @@ See backend route files in `backend/src/routes/` for complete API documentation.
 
 ### Authentication & Authorization
 - Administrative control over user creation (no self-registration)
-- Bcrypt password hashing with salt rounds configuration
-- JWT-based authentication with secure refresh token rotation
+- Argon2id password hashing with configurable parameters (preferred for enhanced security)
+- JWT-based authentication with secure refresh token rotation (access + refresh flow)
 - Role-Based Access Control (RBAC) implementation
 - Session management with secure cookie configuration
 
 ### Input Validation & Sanitization
 - Comprehensive RegEx pattern validation for all inputs
+- Zod schema validation integrated with RegEx whitelists for strict request validation and sanitization
 - Strict type checking with TypeScript
 - Input sanitization to prevent XSS attacks
 - Validation schemas for all API requests
@@ -236,10 +237,39 @@ See backend route files in `backend/src/routes/` for complete API documentation.
 - Continuous security monitoring via Circle CI pipeline
 
 ### Additional Security Measures
-- Secure password policies enforcement
-- Brute force protection
-- Session fixation prevention
-- Audit logging for security events
+
+- Authentication
+  - JWT access tokens with a secure refresh-token rotation flow to prevent unauthorized access and replay attacks.
+
+- Role-Based Access Control (RBAC)
+  - Routes and actions restricted by user role (e.g., user, staff, admin) to enforce least privilege.
+
+- Password Storage
+  - Argon2id hashing for secure password storage with configurable memory, iterations and parallelism parameters (preferred over bcrypt where available).
+
+- CSRF Protection
+  - Double-submit cookie pattern implemented, plus server-side CSRF middleware that validates tokens for all state-changing endpoints.
+
+- Validation
+  - Zod schema validation combined with reinforced RegEx whitelists to strictly validate and sanitize all incoming data.
+
+- CORS
+  - Strict CORS policy with whitelisted origins only; allowed methods and headers explicitly configured to block malicious external sites.
+
+- Cookies
+  - Session and token cookies set with HttpOnly, Secure and SameSite attributes to prevent JavaScript access and mitigate CSRF.
+
+- Rate Limiting
+  - `authLimiter` applied to authentication endpoints to throttle repeated attempts and reduce brute-force risk.
+
+- Session Control
+  - DB-backed sessions with a `disabled`/revoked flag for each account allowing immediate deactivation and server-side session invalidation.
+
+- Error Handling
+  - Sanitized error responses returned to clients; full error details and stack traces are logged server-side only to avoid leaking internals.
+
+- Audit Logging
+  - Security-relevant events (logins, role changes, transaction approvals, session revocations) are logged for audit and review.
 
 ## Development and Testing
 
